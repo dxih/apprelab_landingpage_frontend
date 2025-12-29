@@ -1,6 +1,8 @@
+// src/components/WaitlistForm.tsx
 import { useState, FormEvent } from 'react';
 import { Box, TextField, Button, Alert, Snackbar, CircularProgress } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import api from '../api/axios'; // Axios instance pointing to your backend
 
 interface WaitlistFormProps {
   selectedRole: 'learner' | 'mentor' | 'sme';
@@ -14,6 +16,7 @@ const WaitlistForm = ({ selectedRole }: WaitlistFormProps) => {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
 
+  // Simple email validation
   const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -46,10 +49,14 @@ const WaitlistForm = ({ selectedRole }: WaitlistFormProps) => {
     setLoading(true);
 
     try {
-      // 🔹 Fake API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // 🚀 REAL API CALL
+      await api.post('/api/waitlist/join', {
+        name,
+        email,
+        role: selectedRole,
+      });
 
-      // 🔹 Display success message including role
+      // Success
       setSnackbarMessage(`🎉 Successfully joined the waitlist as a ${selectedRole}!`);
       setSnackbarSeverity('success');
       setOpenSnackbar(true);
@@ -57,8 +64,11 @@ const WaitlistForm = ({ selectedRole }: WaitlistFormProps) => {
       // Clear form
       setName('');
       setEmail('');
-    } catch (error) {
-      setSnackbarMessage('Something went wrong. Please try again.');
+    } catch (error: any) {
+      // Error from backend
+      setSnackbarMessage(
+        error?.response?.data?.message || 'Something went wrong. Please try again.'
+      );
       setSnackbarSeverity('error');
       setOpenSnackbar(true);
     } finally {

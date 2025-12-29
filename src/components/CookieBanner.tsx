@@ -32,7 +32,7 @@ export default function CookieBanner() {
         left: 0,
         width: "100%",
         zIndex: 1400,
-        backgroundColor: "#020617",
+        backgroundColor: "#4b516dff",
         color: "#f8fafc",
         px: { xs: 2, md: 4 },
         py: 2.5,

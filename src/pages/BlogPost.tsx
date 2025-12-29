@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Container,
   Typography,
@@ -7,6 +7,7 @@ import {
   IconButton,
   Button,
   TextField,
+  CircularProgress,
 } from "@mui/material";
 import { useParams } from "react-router-dom";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -14,119 +15,141 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShareIcon from "@mui/icons-material/Share";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import ReactMarkdown from "react-markdown";
-import { blogPosts, BlogSection } from "../data/blog.data";
+
+/* 🔧 CHANGE THIS IF NEEDED */
+const API_BASE = "http://localhost:5000/api/blogs";
 
 interface Comment {
   name: string;
-  text: string;
+  comment: string;
+  createdAt: string;
+}
+
+interface Blog {
+  _id: string;
+  title: string;
+  content: string;
+  likes: number;
+  shares: number;
+  comments: Comment[];
 }
 
 export default function BlogPost() {
-  const { id } = useParams();
-  const post = blogPosts.find((p) => p.id === Number(id));
+  const { id } = useParams<{ id: string }>();
 
-  // ----- SOCIAL STATE -----
+  const [blog, setBlog] = useState<Blog | null>(null);
+  const [loading, setLoading] = useState(true);
+
   const [liked, setLiked] = useState(false);
-  const [likes, setLikes] = useState(Math.floor(Math.random() * 50) + 5);
-
-  const [comments, setComments] = useState<Comment[]>([]);
   const [commentText, setCommentText] = useState("");
   const [commentName, setCommentName] = useState("");
 
-  if (!post) return <Container sx={{ py: 10 }}>Post not found</Container>;
+  /* ----------------------------------
+     FETCH BLOG ON LOAD
+  ---------------------------------- */
+  useEffect(() => {
+    const fetchBlog = async () => {
+      try {
+        const res = await fetch(`${API_BASE}/${id}`);
+        const data = await res.json();
+        setBlog(data.data);
+      } catch (err) {
+        console.error("Failed to load blog", err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  // ----- HANDLERS -----
-  const handleLike = () => {
-    setLiked(!liked);
-    setLikes((prev) => (liked ? prev - 1 : prev + 1));
-  };
+    fetchBlog();
+  }, [id]);
 
-  const handleComment = () => {
-    if (!commentText.trim()) return;
+  if (loading) {
+    return (
+      <Container sx={{ py: 10, textAlign: "center" }}>
+        <CircularProgress />
+      </Container>
+    );
+  }
 
-    setComments([
-      {
-        name: commentName.trim() || "Anonymous",
-        text: commentText,
-      },
-      ...comments,
-    ]);
+  if (!blog) {
+    return <Container sx={{ py: 10 }}>Post not found</Container>;
+  }
 
-    setCommentText("");
-    setCommentName("");
-  };
+  /* ----------------------------------
+     LIKE BLOG
+  ---------------------------------- */
+  const handleLike = async () => {
+    if (liked) return;
 
-  const handleShare = async () => {
-    const url = window.location.href;
-
-    if (navigator.share) {
-      await navigator.share({
-        title: post.title,
-        text: post.excerpt,
-        url,
+    try {
+      const res = await fetch(`${API_BASE}/${id}/like`, {
+        method: "POST",
       });
-    } else {
-      await navigator.clipboard.writeText(url);
-      alert("Link copied 🚀");
+
+      const data = await res.json();
+      setBlog(data.data);
+      setLiked(true);
+    } catch (err) {
+      console.error("Like failed", err);
     }
   };
 
-  // ----- CONTENT RENDERER -----
-  const renderContent = post.content.map((section: BlogSection, i: number) => (
-    <Box key={i} sx={{ mb: 5 }}>
-      {section.heading && (
-        <Typography variant="h5" sx={{ mt: 3, mb: 2, fontWeight: 600 }}>
-          {section.heading}
-        </Typography>
-      )}
+  /* ----------------------------------
+     SHARE BLOG
+  ---------------------------------- */
+  const handleShare = async () => {
+    const url = window.location.href;
 
-      {section.text && (
-        <Box sx={{ color: "#475569", lineHeight: 1.9, mb: 2 }}>
-          <ReactMarkdown
-            components={{
-              ul: ({ children }) => <Box component="ul" sx={{ pl: 3, mb: 1 }}>{children}</Box>,
-              li: ({ children }) => <Box component="li" sx={{ mb: 1 }}>{children}</Box>,
-              strong: ({ children }) => <Box component="strong" sx={{ fontWeight: 700 }}>{children}</Box>,
-              p: ({ children }) => <Typography component="p" sx={{ mb: 1 }}>{children}</Typography>,
-            }}
-          >
-            {section.text}
-          </ReactMarkdown>
-        </Box>
-      )}
+    try {
+      await fetch(`${API_BASE}/${id}/share`, { method: "POST" });
 
-      {/* 🔥 IMAGE (DESKTOP-SAFE SIZE) */}
-      {section.image && (
-        <Box
-          sx={{
-            my: 4,
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <Box
-            component="img"
-            src={section.image}
-            alt={section.heading || "Blog Image"}
-            sx={{
-              width: "100%",
-              maxWidth: "720px",
-              maxHeight: "420px",
-              objectFit: "cover",
-              borderRadius: 3,
-              boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
-            }}
-          />
-        </Box>
-      )}
-    </Box>
-  ));
+      if (navigator.share) {
+        await navigator.share({
+          title: blog.title,
+          url,
+        });
+      } else {
+        await navigator.clipboard.writeText(url);
+        alert("Link copied 🚀");
+      }
+
+      setBlog({ ...blog, shares: blog.shares + 1 });
+    } catch (err) {
+      console.error("Share failed", err);
+    }
+  };
+
+  /* ----------------------------------
+     ADD COMMENT
+  ---------------------------------- */
+  const handleComment = async () => {
+    if (!commentText.trim()) return;
+
+    try {
+      const res = await fetch(`${API_BASE}/${id}/comment`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: commentName || "Anonymous",
+          comment: commentText,
+        }),
+      });
+
+      const data = await res.json();
+      setBlog(data.data);
+
+      setCommentText("");
+      setCommentName("");
+    } catch (err) {
+      console.error("Comment failed", err);
+    }
+  };
 
   return (
     <Container sx={{ py: 6, maxWidth: "md" }}>
       {/* TITLE */}
       <Typography variant="h2" sx={{ fontWeight: 700, mb: 3 }}>
-        {post.title}
+        {blog.title}
       </Typography>
 
       {/* ACTION BAR */}
@@ -135,12 +158,12 @@ export default function BlogPost() {
           <IconButton onClick={handleLike} color={liked ? "error" : "default"}>
             {liked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
           </IconButton>
-          <Typography>{likes}</Typography>
+          <Typography>{blog.likes}</Typography>
         </Stack>
 
         <Stack direction="row" spacing={1} alignItems="center">
           <ChatBubbleOutlineIcon sx={{ color: "#64748B" }} />
-          <Typography>{comments.length}</Typography>
+          <Typography>{blog.comments.length}</Typography>
         </Stack>
 
         <IconButton onClick={handleShare}>
@@ -149,7 +172,9 @@ export default function BlogPost() {
       </Stack>
 
       {/* CONTENT */}
-      {renderContent}
+      <Box sx={{ color: "#475569", lineHeight: 1.9, mb: 6 }}>
+        <ReactMarkdown>{blog.content}</ReactMarkdown>
+      </Box>
 
       {/* COMMENTS */}
       <Box sx={{ mt: 10 }}>
@@ -181,14 +206,14 @@ export default function BlogPost() {
           </Button>
         </Stack>
 
-        {comments.length === 0 && (
+        {blog.comments.length === 0 && (
           <Typography sx={{ color: "#64748B" }}>
             No comments yet. Be the first 👀
           </Typography>
         )}
 
         <Stack spacing={2}>
-          {comments.map((comment, i) => (
+          {blog.comments.map((comment, i) => (
             <Box
               key={i}
               sx={{
@@ -201,7 +226,7 @@ export default function BlogPost() {
                 {comment.name}
               </Typography>
               <Typography sx={{ color: "#475569" }}>
-                {comment.text}
+                {comment.comment}
               </Typography>
             </Box>
           ))}

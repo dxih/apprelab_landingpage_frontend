@@ -122,7 +122,7 @@ export default function About() {
   const leads = TEAM_MEMBERS.filter((m) => m.role.toLowerCase().includes("lead") || m.role.toLowerCase().includes("cto"));
 
   return (
-    <Box sx={{ pt: { xs: 6, md: 10 }, pb: { xs: 6, md: 12 }, background: "#f9fafb51" }}>
+    <Box sx={{ pt: { xs: 6, md: 10 }, pb: { xs: 6, md: 1 }, background: "#f9fafb51" }}>
       <Container maxWidth="lg">
         {/* INTRO */}
         <Box sx={{ textAlign: "center", mb: 12 }}>
