@@ -44,7 +44,7 @@ export default function CookieBanner() {
         boxShadow: "0 -10px 30px rgba(0,0,0,0.25)",
       }}
     >
-      <Typography sx={{ fontSize: 14, maxWidth: 720 }}>
+      <Typography sx={{ fontSize: 14, maxWidth: 720, color: "#f8fafc" }}>
         We use cookies to improve your experience, analyze traffic, and keep
         Apprelab secure. You can accept or reject non-essential cookies.{" "}
         <Typography

@@ -1,8 +1,46 @@
-import { Box, Container, Typography, Card, CardContent, CardMedia, Button, Chip, Stack } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Box, Container, Typography, Card, CardContent, CardMedia, Button, Chip, Stack, CircularProgress } from "@mui/material";
 import { Link } from "react-router-dom";
-import { blogPosts } from "../data/blog.data";
+
+const API_BASE = "http://localhost:5000/api/blogs";
+
+interface BlogSection {
+  heading?: string;
+  text?: string;
+  image?: string;
+}
+
+interface Blog {
+  _id: string;
+  title: string;
+  excerpt: string;
+  category: string;
+  author: string;
+  date: string;
+  content: BlogSection[];
+}
 
 export default function Blog() {
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const res = await fetch(API_BASE);
+        const data = await res.json();
+        setBlogs(data.data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchBlogs();
+  }, []);
+
+  if (loading) return <Container sx={{ py: 10, textAlign: "center" }}><CircularProgress /></Container>;
+
   return (
     <Container sx={{ py: 7 }}>
       <Typography variant="h3" sx={{ mb: 6, fontWeight: 700 }}>
@@ -10,13 +48,10 @@ export default function Blog() {
       </Typography>
 
       <Box sx={{ display: "grid", gap: 6, gridTemplateColumns: { xs: "1fr", md: "repeat(2,1fr)" } }}>
-        {blogPosts.map((post) => {
+        {blogs.map((post) => {
           const firstImage = post.content.find((c) => c.image)?.image;
           return (
-            <Card
-              key={post.id}
-              sx={{ borderRadius: 3, background: "#F9FAFB", boxShadow: "0 4px 24px rgba(0,0,0,0.05)" }}
-            >
+            <Card key={post._id} sx={{ borderRadius: 3, background: "#F9FAFB", boxShadow: "0 4px 24px rgba(0,0,0,0.05)" }}>
               {firstImage && (
                 <CardMedia component="img" height="180" image={firstImage} alt={post.title} sx={{ borderTopLeftRadius: 12, borderTopRightRadius: 12 }} />
               )}
@@ -36,7 +71,7 @@ export default function Blog() {
                   {post.excerpt}
                 </Typography>
 
-                <Button component={Link} to={`/blog/${post.id}`} sx={{ color: "#0057FF", fontWeight: 600 }}>
+                <Button component={Link} to={`/blog/${post._id}`} sx={{ color: "#0057FF", fontWeight: 600 }}>
                   Read More →
                 </Button>
               </CardContent>

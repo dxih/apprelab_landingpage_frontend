@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Box,
   Container,
@@ -14,6 +15,41 @@ import AppRelabLogo from "../assets/apprelab_logo.png";
 import { Link as RouterLink } from "react-router-dom";
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const handleNewsletterSubmit = async () => {
+    if (!email) {
+      setMessage("Please enter your email");
+      return;
+    }
+
+    setLoading(true);
+    setMessage("");
+
+    try {
+      const res = await fetch("http://localhost:5000/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        setMessage("Success! Check your email for a welcome message.");
+        setEmail("");
+      } else {
+        setMessage("Failed to subscribe. Try again later.");
+      }
+    } catch (err) {
+      console.error(err);
+      setMessage("Something went wrong. Try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Box
       component="footer"
@@ -157,12 +193,16 @@ const Footer = () => {
               size="small"
               placeholder="Enter your email"
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               sx={{ mb: 1.5 }}
             />
 
             <Button
               fullWidth
               variant="contained"
+              disabled={loading}
+              onClick={handleNewsletterSubmit}
               sx={{
                 textTransform: "none",
                 fontWeight: 600,
@@ -170,8 +210,14 @@ const Footer = () => {
                 "&:hover": { background: "#0047d4" },
               }}
             >
-              Join Newsletter
+              {loading ? "Joining..." : "Join Newsletter"}
             </Button>
+
+            {message && (
+              <Typography variant="body2" sx={{ mt: 1, color: "#0057FF" }}>
+                {message}
+              </Typography>
+            )}
           </Box>
         </Box>
 
