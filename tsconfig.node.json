@@ -16,6 +16,8 @@
     /* Required for composite project */
     "composite": true,
     "declaration": true,
+    "emitDeclarationOnly": true,
+    "noEmit": true,
     "outDir": "./dist", 
     "rootDir": ".", 
 
