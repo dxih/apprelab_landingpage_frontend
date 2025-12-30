@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Box, Container, Typography, Card, CardContent, CardMedia, Button, Chip, Stack, CircularProgress } from "@mui/material";
 import { Link } from "react-router-dom";
 
-const API_BASE = "http://localhost:5000/api/blogs";
+const API_BASE = "https://apprelab-landingpage-backend.onrender.com/api/blogs";
 
 interface BlogSection {
   heading?: string;

@@ -16,7 +16,7 @@ import ShareIcon from "@mui/icons-material/Share";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import ReactMarkdown from "react-markdown";
 
-const API_BASE = "http://localhost:5000/api/blogs";
+const API_BASE = "https://apprelab-landingpage-backend.onrender.com/api/blogs";
 
 interface Comment {
   name: string;
