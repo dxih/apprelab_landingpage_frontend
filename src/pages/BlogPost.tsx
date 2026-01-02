@@ -127,9 +127,9 @@ export default function BlogPost() {
       <Box sx={{ color: "#475569", lineHeight: 1.9, mb: 6 }}>
         {blog.content.map((section, i) => (
           <Box key={i} sx={{ mb: 3 }}>
+            {section.image && <img src={section.image} alt="" style={{ width: "100%", marginTop: "1rem", borderRadius: "8px" }} />}
             {section.heading && <Typography variant="h5" sx={{ fontWeight: 600, mb: 1 }}>{section.heading}</Typography>}
             {section.text && <ReactMarkdown>{section.text}</ReactMarkdown>}
-            {section.image && <img src={section.image} alt="" style={{ width: "100%", marginTop: "1rem", borderRadius: "8px" }} />}
           </Box>
         ))}
       </Box>

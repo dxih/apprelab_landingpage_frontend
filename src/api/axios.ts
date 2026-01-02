@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://apprelab-landingpage-backend.onrender.com", // <- your deployed backend
+  baseURL: "https://localhost:5000", // <- your deployed backend
   headers: {
     "Content-Type": "application/json",
   },

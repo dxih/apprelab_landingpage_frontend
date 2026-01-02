@@ -1,8 +1,20 @@
 import { useEffect, useState } from "react";
-import { Box, Container, Typography, Card, CardContent, CardMedia, Button, Chip, Stack, CircularProgress } from "@mui/material";
+import {
+  Box,
+  Container,
+  Typography,
+  Card,
+  CardContent,
+  CardMedia,
+  Button,
+  Chip,
+  Stack,
+  CircularProgress,
+} from "@mui/material";
 import { Link } from "react-router-dom";
 
-const API_BASE = "https://apprelab-landingpage-backend.onrender.com/api/blogs";
+const API_BASE =
+  "https://apprelab-landingpage-backend.onrender.com/api/blogs";
 
 interface BlogSection {
   heading?: string;
@@ -17,6 +29,7 @@ interface Blog {
   category: string;
   author: string;
   date: string;
+  image?: string; // top-level image if exists
   content: BlogSection[];
 }
 
@@ -28,35 +41,84 @@ export default function Blog() {
     const fetchBlogs = async () => {
       try {
         const res = await fetch(API_BASE);
-        const data = await res.json();
-        setBlogs(data.data);
+        const json = await res.json();
+        setBlogs(json.data || []);
       } catch (err) {
-        console.error(err);
+        console.error("Failed to fetch blogs:", err);
       } finally {
         setLoading(false);
       }
     };
+
     fetchBlogs();
   }, []);
 
-  if (loading) return <Container sx={{ py: 10, textAlign: "center" }}><CircularProgress /></Container>;
+  if (loading) {
+    return (
+      <Container sx={{ py: 10, textAlign: "center" }}>
+        <CircularProgress />
+      </Container>
+    );
+  }
 
   return (
     <Container sx={{ py: 7 }}>
-      <Typography variant="h3" sx={{ mb: 6, fontWeight: 700 }}>
+      <Typography
+        variant="h3"
+        sx={{ mb: 6, fontWeight: 700, textAlign: "center" }}
+      >
         apprelab™ Blog
       </Typography>
 
-      <Box sx={{ display: "grid", gap: 6, gridTemplateColumns: { xs: "1fr", md: "repeat(2,1fr)" } }}>
+      <Box
+        sx={{
+          display: "grid",
+          gap: 6,
+          gridTemplateColumns: { xs: "1fr", md: "repeat(2, 1fr)" },
+        }}
+      >
         {blogs.map((post) => {
-          const firstImage = post.content.find((c) => c.image)?.image;
+          // 🔑 Use top-level image first, else fallback to first content image
+          const imageUrl =
+            post.image ||
+            post.content?.find((section) => section.image)?.image ||
+            "";
+
           return (
-            <Card key={post._id} sx={{ borderRadius: 3, background: "#F9FAFB", boxShadow: "0 4px 24px rgba(0,0,0,0.05)" }}>
-              {firstImage && (
-                <CardMedia component="img" height="180" image={firstImage} alt={post.title} sx={{ borderTopLeftRadius: 12, borderTopRightRadius: 12 }} />
+            <Card
+              key={post._id}
+              sx={{
+                borderRadius: 3,
+                overflow: "hidden",
+                backgroundColor: "#F9FAFB",
+                boxShadow: "0 10px 30px rgba(0,0,0,0.06)",
+                transition: "transform 0.3s ease",
+                "&:hover": { transform: "translateY(-6px)" },
+              }}
+            >
+              {/* FULL IMAGE VISIBLE */}
+              {imageUrl && (
+                <CardMedia
+                  component="img"
+                  src={imageUrl}
+                  alt={post.title}
+                  sx={{
+                    width: "100%",
+                    height: "auto",      // automatic height
+                    objectFit: "contain", // shows entire image
+                    backgroundColor: "#F9FAFB", // optional: fills empty space
+                  }}
+                />
               )}
+
+              {/* BLOG DETAILS */}
               <CardContent sx={{ p: 4 }}>
-                <Stack direction="row" spacing={1} sx={{ mb: 2 }}>
+                <Stack
+                  direction="row"
+                  spacing={1}
+                  alignItems="center"
+                  sx={{ mb: 2 }}
+                >
                   <Chip label={post.category} color="primary" size="small" />
                   <Typography variant="body2" sx={{ color: "#64748B" }}>
                     By {post.author} · {post.date}
@@ -71,7 +133,11 @@ export default function Blog() {
                   {post.excerpt}
                 </Typography>
 
-                <Button component={Link} to={`/blog/${post._id}`} sx={{ color: "#0057FF", fontWeight: 600 }}>
+                <Button
+                  component={Link}
+                  to={`/blog/${post._id}`}
+                  sx={{ px: 0, fontWeight: 600, color: "#0057FF" }}
+                >
                   Read More →
                 </Button>
               </CardContent>
