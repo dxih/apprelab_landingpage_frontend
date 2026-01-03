@@ -1,6 +1,5 @@
-// CareerJobs.tsx
 import { Card, CardContent, Typography, Button } from "@mui/material";
-import { Job } from "../data/jobs.data";
+import { Job } from "../types/job";
 import { Link } from "react-router-dom";
 
 interface CareerJobsProps {
@@ -27,11 +26,16 @@ export default function CareerJobs({ job }: CareerJobsProps) {
         <Typography variant="h5" sx={{ fontWeight: 600, mb: 1 }}>
           {job.title}
         </Typography>
+
         <Typography sx={{ mb: 2, color: "#475569", fontWeight: 500 }}>
           {job.type} · {job.location}
         </Typography>
-        <Typography sx={{ mb: 2 }}>{job.shortDescription}</Typography>
-        <Link to={`/careers/${job.id}`}>
+
+        <Typography sx={{ mb: 2 }}>
+          {job.shortDescription}
+        </Typography>
+
+        <Link to={`/careers/${job._id}`}>
           <Button variant="contained" sx={{ background: "#0057FF" }}>
             Read More
           </Button>

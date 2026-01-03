@@ -1,13 +1,38 @@
-// CareerJobDetail.tsx
 import { useParams, useNavigate } from "react-router-dom";
-import { jobs } from "../data/jobs.data";
-import { Container, Typography, Box, Button } from "@mui/material";
+import { Container, Typography, Box, Button, CircularProgress } from "@mui/material";
+import { useEffect, useState } from "react";
+import { Job } from "../types/job";
 
 export default function CareerJobDetail() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const [job, setJob] = useState<Job | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const job = jobs.find((j) => j.id === Number(id));
+  useEffect(() => {
+    const fetchJob = async () => {
+      try {
+        const res = await fetch(`https://apprelab-landingpage-backend.onrender.com/api/jobs/${id}`);
+        if (!res.ok) throw new Error("Job not found");
+        const data = await res.json();
+        setJob(data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchJob();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <Container sx={{ py: 10 }}>
+        <CircularProgress />
+      </Container>
+    );
+  }
 
   if (!job) {
     return (
@@ -25,10 +50,14 @@ export default function CareerJobDetail() {
       <Typography variant="h3" sx={{ mb: 2, fontWeight: 800 }}>
         {job.title}
       </Typography>
+
       <Typography sx={{ mb: 2, color: "#475569", fontWeight: 600 }}>
         {job.type} · {job.location}
       </Typography>
-      <Typography sx={{ mb: 4, whiteSpace: "pre-line" }}>{job.description}</Typography>
+
+      <Typography sx={{ mb: 4, whiteSpace: "pre-line" }}>
+        {job.description}
+      </Typography>
 
       <Box sx={{ mb: 3 }}>
         <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
@@ -78,17 +107,16 @@ export default function CareerJobDetail() {
         </Box>
       )}
 
-<Button
-  variant="contained"
-  sx={{ background: "#0057FF" }}
-  component="a"
-  href={job.applicationLink}
-  target="_blank"
-  rel="noopener noreferrer"
->
-  Apply Here
-</Button>
-
+      <Button
+        variant="contained"
+        sx={{ background: "#0057FF" }}
+        component="a"
+        href={job.applicationLink}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Apply Here
+      </Button>
 
       <Button variant="text" sx={{ ml: 2 }} onClick={() => navigate("/careers")}>
         Back
