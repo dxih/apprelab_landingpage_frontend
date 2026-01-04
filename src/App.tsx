@@ -1,10 +1,16 @@
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Box, GlobalStyles } from '@mui/material';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+// Admin Context
+import { AdminProvider } from './admin/context/AdminContext';
+
+// Main Layout Components
 import Navbar from "./layout/Navbar";
 import Footer from './layout/Footer';
 import ScrollToTop from './layout/ScrollToTop';
+import CookieBanner from './components/CookieBanner';
 
+// Main Pages
 import Home from "./pages/Home";
 import Careers from "./pages/Careers";
 import CareerJobDetail from './pages/CareerJobDetail';
@@ -15,11 +21,18 @@ import Terms from "./pages/Terms";
 import About from "./pages/About";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import CookiePolicy from "./pages/CookiePolicy";
-import CookieBanner from './components/CookieBanner';
+
+// Admin Pages
+import Login from './admin/pages/Login';
+import Dashboard from './admin/pages/Dashboard';
+import BlogList from './admin/pages/blogs/BlogList';
+import BlogForm from './admin/pages/blogs/BlogForm';
+import JobList from './admin/pages/jobs/JobList';
+import JobForm from './admin/pages/jobs/JobForm';
 
 export default function App() {
   return (
-    <>
+    <AdminProvider>
       <GlobalStyles
         styles={{
           '@keyframes floatBlue': {
@@ -179,6 +192,7 @@ export default function App() {
           <Box sx={{ position: 'relative', zIndex: 1 }}>
             <Navbar />
             <Routes>
+              {/* Main Public Routes */}
               <Route path="/" element={<Home />} />
               <Route path="/careers" element={<Careers />} />
               <Route path="/careers/:id" element={<CareerJobDetail />} />
@@ -189,12 +203,25 @@ export default function App() {
               <Route path="/about" element={<About />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route path="/cookie-policy" element={<CookiePolicy />} />
+
+              {/* Admin Routes */}
+              <Route path="/admin/login" element={<Login />} />
+              <Route path="/admin/dashboard" element={<Dashboard />} />
+              <Route path="/admin/blogs" element={<BlogList />} />
+              <Route path="/admin/blogs/create" element={<BlogForm />} />
+              <Route path="/admin/blogs/edit/:id" element={<BlogForm />} />
+              <Route path="/admin/jobs" element={<JobList />} />
+              <Route path="/admin/jobs/create" element={<JobForm />} />
+              <Route path="/admin/jobs/edit/:id" element={<JobForm />} />
+
+              {/* Catch-all redirect */}
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
             <Footer />
             <CookieBanner />
           </Box>
         </Box>
       </Router>
-    </>
+    </AdminProvider>
   );
 }

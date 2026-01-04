@@ -10,7 +10,7 @@ export default function Careers() {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const res = await fetch("https://apprelab-landingpage-backend.onrender.com/api/jobs");
+        const res = await fetch("/api/jobs");
         const json = await res.json();
         setJobs(json.data || []); // ✅ FIX
       } catch (err) {

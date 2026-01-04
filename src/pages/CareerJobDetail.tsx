@@ -12,7 +12,7 @@ export default function CareerJobDetail() {
   useEffect(() => {
     const fetchJob = async () => {
       try {
-        const res = await fetch(`https://apprelab-landingpage-backend.onrender.com/api/jobs/${id}`);
+        const res = await fetch(`/api/jobs/${id}`);
         if (!res.ok) throw new Error("Job not found");
         const data = await res.json();
         setJob(data.data);
