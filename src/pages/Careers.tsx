@@ -11,8 +11,8 @@ export default function Careers() {
     const fetchJobs = async () => {
       try {
         const res = await fetch("https://apprelab-landingpage-backend.onrender.com/api/jobs");
-        const data = await res.json();
-        setJobs(data);
+        const json = await res.json();
+        setJobs(json.data || []); // ✅ FIX
       } catch (err) {
         console.error("Failed to fetch jobs", err);
       } finally {
