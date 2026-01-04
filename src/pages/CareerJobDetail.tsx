@@ -15,7 +15,7 @@ export default function CareerJobDetail() {
         const res = await fetch(`https://apprelab-landingpage-backend.onrender.com/api/jobs/${id}`);
         if (!res.ok) throw new Error("Job not found");
         const data = await res.json();
-        setJob(data);
+        setJob(data.data);
       } catch (err) {
         console.error(err);
       } finally {
