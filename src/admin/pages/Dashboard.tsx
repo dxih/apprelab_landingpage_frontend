@@ -1,5 +1,4 @@
-import { Container, Typography, Button, Stack, Box, Card, CardContent, Avatar, Chip } from '@mui/material';
-import { useAdmin } from '../context/AdminContext';
+import { Container, Typography, Button, Stack, Box, Card, CardContent, Chip } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import ArticleIcon from '@mui/icons-material/Article';
 import WorkIcon from '@mui/icons-material/Work';
@@ -8,38 +7,57 @@ import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import { useState, useEffect } from 'react';
 
 const Dashboard = () => {
-  const { logout, admin } = useAdmin();
-    console.log('🔍 Dashboard admin:', admin); // Add this
-
   const navigate = useNavigate();
   const [stats, setStats] = useState({ blogs: 0, jobs: 0 });
+  const [loading, setLoading] = useState(true);
 
-  // Fetch stats from your backend
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        // Replace with your actual API endpoints
+        setLoading(true);
+        
+        // Option 1: If your backend returns arrays directly
         const blogsRes = await fetch('/api/blogs');
         const jobsRes = await fetch('/api/jobs');
+        
+        console.log('Blogs Response Status:', blogsRes.status);
+        console.log('Jobs Response Status:', jobsRes.status);
+        
+        if (!blogsRes.ok || !jobsRes.ok) {
+          console.error('API Error - Blogs:', blogsRes.status, 'Jobs:', jobsRes.status);
+          return;
+        }
+        
         const blogsData = await blogsRes.json();
         const jobsData = await jobsRes.json();
         
+        console.log('Blogs Data:', blogsData);
+        console.log('Jobs Data:', jobsData);
+        
+        // Handle different response formats
         setStats({
-          blogs: blogsData?.length || 0,
-          jobs: jobsData?.length || 0
+          blogs: Array.isArray(blogsData) 
+            ? blogsData.length 
+            : blogsData?.data?.length || blogsData?.blogs?.length || 0,
+          jobs: Array.isArray(jobsData) 
+            ? jobsData.length 
+            : jobsData?.data?.length || jobsData?.jobs?.length || 0
         });
       } catch (error) {
         console.error('Error fetching stats:', error);
+        // Set to 0 on error
+        setStats({ blogs: 0, jobs: 0 });
+      } finally {
+        setLoading(false);
       }
     };
     
     fetchStats();
   }, []);
 
-  // Add this function
   const handleLogout = () => {
-    logout();
-    navigate('/admin/login'); // or wherever your login page is
+    // Add your logout logic
+    navigate('/admin/login');
   };
 
   const dashboardCards = [
@@ -47,7 +65,7 @@ const Dashboard = () => {
       title: 'Blog Posts',
       count: stats.blogs,
       icon: <ArticleIcon sx={{ fontSize: 40 }} />,
-      color: '#6366f1',
+      color: '#0057FF',
       bgColor: '#eef2ff',
       route: '/admin/blogs',
       description: 'Manage your blog content'
@@ -56,7 +74,7 @@ const Dashboard = () => {
       title: 'Job Listings',
       count: stats.jobs,
       icon: <WorkIcon sx={{ fontSize: 40 }} />,
-      color: '#8b5cf6',
+      color: '#ffcc00ff',
       bgColor: '#f5f3ff',
       route: '/admin/jobs',
       description: 'Manage job postings'
@@ -71,12 +89,8 @@ const Dashboard = () => {
   };
 
   return (
-    <Box sx={{ 
-      minHeight: '100vh',
-      py: 4
-    }}>
+    <Box sx={{ minHeight: '100vh', py: 4 }}>
       <Container maxWidth="lg">
-        {/* Header Section */}
         <Box sx={{ 
           mb: 5,
           p: 4,
@@ -87,28 +101,19 @@ const Dashboard = () => {
         }}>
           <Stack direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap" gap={2}>
             <Stack direction="row" alignItems="center" spacing={2}>
-              <Avatar sx={{ 
-                width: 56, 
-                height: 56, 
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                fontSize: 24,
-                fontWeight: 'bold'
-              }}>
-                {admin?.name?.charAt(0) || 'A'}
-              </Avatar>
               <Box>
                 <Typography variant="h4" fontWeight="700" color="text.primary">
                   {getGreeting()}!
                 </Typography>
                 <Typography variant="body1" color="text.secondary">
-                  Welcome back, {admin?.name || 'Admin'}
+                  Welcome back, Admin
                 </Typography>
               </Box>
             </Stack>
             <Button 
               variant="outlined" 
               startIcon={<LogoutIcon />}
-              onClick={handleLogout} // CHANGED: from logout to handleLogout
+              onClick={handleLogout}
               sx={{ 
                 borderRadius: 2,
                 px: 3,
@@ -125,18 +130,14 @@ const Dashboard = () => {
           </Stack>
         </Box>
 
-        {/* Quick Stats */}
         <Box sx={{ mb: 4 }}>
           <Stack direction="row" alignItems="center" spacing={1} mb={2}>
-            <TrendingUpIcon sx={{ color: 'white' }} />
-            <Typography variant="h6" color="white" fontWeight="600">
+            <TrendingUpIcon sx={{ color: 'black' }} />
+            <Typography variant="h6" color="black" fontWeight="600">
               Quick Overview
             </Typography>
           </Stack>
-          <Stack 
-            direction={{ xs: 'column', sm: 'row' }} 
-            spacing={3}
-          >
+          <Stack direction={{ xs: 'column', sm: 'row' }} spacing={3}>
             {dashboardCards.map((card, index) => (
               <Card 
                 key={index}
@@ -165,7 +166,7 @@ const Dashboard = () => {
                       {card.icon}
                     </Box>
                     <Chip 
-                      label={`${card.count} Total`}
+                      label={loading ? 'Loading...' : `${card.count} Total`}
                       size="small"
                       sx={{ 
                         fontWeight: 600,
@@ -203,7 +204,6 @@ const Dashboard = () => {
           </Stack>
         </Box>
 
-        {/* Recent Activity Section */}
         <Box sx={{ 
           p: 4,
           borderRadius: 3,
@@ -218,7 +218,7 @@ const Dashboard = () => {
             <Button 
               variant="outlined" 
               fullWidth 
-              onClick={() => navigate('/admin/blogs/new')}
+              onClick={() => navigate('/admin/blogs/create')}
               sx={{ 
                 py: 1.5,
                 borderRadius: 2,
@@ -236,7 +236,7 @@ const Dashboard = () => {
             <Button 
               variant="outlined" 
               fullWidth 
-              onClick={() => navigate('/admin/jobs/new')}
+              onClick={() => navigate('/admin/jobs/create')}
               sx={{ 
                 py: 1.5,
                 borderRadius: 2,

@@ -1,8 +1,8 @@
-// BlogForm.tsx
+// BlogForm.tsx - Fixed version
 import React, { useState, useEffect } from 'react';
 import { Box, TextField, Button, Typography, Stack, Paper } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../../utils/api';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 
 interface BlogSection {
@@ -20,18 +20,14 @@ interface BlogData {
   content: BlogSection[];
 }
 
-// Define the props interface
 interface BlogFormProps {
   initialData?: BlogData;
   blogId?: string;
 }
 
-// Apply the props interface here - this is the key fix
 const BlogForm: React.FC<BlogFormProps> = ({ initialData, blogId }) => {
-  const { id } = useParams(); // for edit when used standalone
+  const { id } = useParams();
   const navigate = useNavigate();
-
-  // Use blogId prop if provided, otherwise fall back to URL param
   const effectiveId = blogId || id;
 
   const [blog, setBlog] = useState<BlogData>({
@@ -44,12 +40,33 @@ const BlogForm: React.FC<BlogFormProps> = ({ initialData, blogId }) => {
   });
 
   const [uploading, setUploading] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
-  // Initialize form with initialData if provided
+  // ✅ Initialize form with initialData when it arrives
   useEffect(() => {
+    console.log('BlogForm received initialData:', initialData);
+    
     if (initialData) {
-      setBlog(initialData);
+      const formData: BlogData = {
+        title: initialData.title || '',
+        excerpt: initialData.excerpt || '',
+        category: initialData.category || '',
+        author: initialData.author || '',
+        date: initialData.date || new Date().toISOString().split('T')[0],
+        content: initialData.content && initialData.content.length > 0 
+          ? initialData.content.map(section => ({
+              heading: section.heading || '',
+              text: section.text || '',
+              image: section.image || ''
+            }))
+          : [{ text: '' }]
+      };
+      
+      console.log('Setting blog state to:', formData);
+      setBlog(formData);
     }
+    // Note: We don't reset to defaults if initialData becomes undefined
+    // because that would clear the form while editing
   }, [initialData]);
 
   const handleContentChange = (index: number, field: keyof BlogSection, value: string) => {
@@ -58,7 +75,9 @@ const BlogForm: React.FC<BlogFormProps> = ({ initialData, blogId }) => {
     setBlog({ ...blog, content: newContent });
   };
 
-  const addSection = () => setBlog({ ...blog, content: [...blog.content, { text: '' }] });
+  const addSection = () => {
+    setBlog({ ...blog, content: [...blog.content, { text: '' }] });
+  };
 
   const removeSection = (index: number) => {
     if (blog.content.length === 1) {
@@ -70,39 +89,90 @@ const BlogForm: React.FC<BlogFormProps> = ({ initialData, blogId }) => {
   };
 
   const handleFileUpload = async (index: number, file: File) => {
+    if (!file) return;
+
+    // ✅ Validate file type
+    if (!file.type.startsWith('image/')) {
+      alert('Please upload an image file');
+      return;
+    }
+
+    // ✅ Validate file size (5MB max)
+    if (file.size > 5 * 1024 * 1024) {
+      alert('File size must be less than 5MB');
+      return;
+    }
+
     setUploading(true);
     try {
       const formData = new FormData();
       formData.append('file', file);
-      const token = localStorage.getItem('adminToken');
-      const res = await axios.post('/api/admin/upload', formData, {
-        headers: { 'Content-Type': 'multipart/form-data', Authorization: `Bearer ${token}` },
+      
+      console.log('Uploading file:', file.name, 'Size:', file.size, 'Type:', file.type);
+      
+      const res = await axios.post('/admin/upload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
-      handleContentChange(index, 'image', res.data.url);
-    } catch (err) {
-      console.error(err);
-      alert('Upload failed!');
+      
+      console.log('Upload response:', res.data);
+      
+      // ✅ Check for success flag AND url
+      if (res.data.success && res.data.url) {
+        handleContentChange(index, 'image', res.data.url);
+        alert('Image uploaded successfully!');
+      } else {
+        throw new Error('No URL in response');
+      }
+    } catch (err: any) {
+      console.error('Upload error:', err);
+      console.error('Error response:', err.response?.data);
+      
+      const errorMsg = err.response?.data?.message 
+        || err.message 
+        || 'Upload failed. Please check your Cloudinary credentials.';
+      
+      alert(errorMsg);
     } finally {
       setUploading(false);
     }
   };
 
   const handleSubmit = async () => {
+    // Validation
+    if (!blog.title.trim()) {
+      alert('Title is required');
+      return;
+    }
+    
+    if (blog.content.every(section => !section.text.trim())) {
+      alert('At least one content section must have text');
+      return;
+    }
+
+    setSubmitting(true);
     try {
-      const token = localStorage.getItem('adminToken');
+      console.log('Submitting blog:', blog);
+      
       if (effectiveId) {
-        await axios.put(`/api/admin/blogs/${effectiveId}`, blog, { 
-          headers: { Authorization: `Bearer ${token}` } 
-        });
+        // Update existing blog
+        const res = await axios.put(`/admin/blogs/${effectiveId}`, blog);
+        console.log('Update response:', res.data);
+        alert('Blog updated successfully!');
       } else {
-        await axios.post(`/api/admin/blogs`, blog, { 
-          headers: { Authorization: `Bearer ${token}` } 
-        });
+        // Create new blog
+        const res = await axios.post('/admin/blogs', blog);
+        console.log('Create response:', res.data);
+        alert('Blog created successfully!');
       }
       navigate('/admin/blogs');
-    } catch (err) {
-      console.error(err);
-      alert('Save failed!');
+    } catch (err: any) {
+      console.error('Save error:', err);
+      console.error('Error response:', err.response?.data);
+      
+      const errorMsg = err.response?.data?.message || err.message || 'Save failed!';
+      alert(errorMsg);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -111,31 +181,47 @@ const BlogForm: React.FC<BlogFormProps> = ({ initialData, blogId }) => {
       <Typography variant="h4" mb={2}>
         {effectiveId ? 'Edit Blog' : 'Create Blog'}
       </Typography>
-      <Stack spacing={2}>
+      
+      {effectiveId && (
+        <Typography variant="caption" color="textSecondary" mb={2} display="block">
+          Editing blog ID: {effectiveId} | Content sections: {blog.content.length}
+        </Typography>
+      )}
+      
+      <Stack spacing={3}>
         <TextField 
           label="Title" 
           fullWidth 
+          required
           value={blog.title} 
           onChange={e => setBlog({ ...blog, title: e.target.value })} 
+          placeholder="Enter blog title"
         />
         <TextField 
           label="Excerpt" 
           fullWidth 
+          multiline
+          rows={2}
           value={blog.excerpt} 
           onChange={e => setBlog({ ...blog, excerpt: e.target.value })} 
+          placeholder="Brief description of the blog"
         />
-        <TextField 
-          label="Category" 
-          fullWidth 
-          value={blog.category} 
-          onChange={e => setBlog({ ...blog, category: e.target.value })} 
-        />
-        <TextField 
-          label="Author" 
-          fullWidth 
-          value={blog.author} 
-          onChange={e => setBlog({ ...blog, author: e.target.value })} 
-        />
+        <Stack direction="row" spacing={2}>
+          <TextField 
+            label="Category" 
+            fullWidth 
+            value={blog.category} 
+            onChange={e => setBlog({ ...blog, category: e.target.value })} 
+            placeholder="e.g., Technology, Travel"
+          />
+          <TextField 
+            label="Author" 
+            fullWidth 
+            value={blog.author} 
+            onChange={e => setBlog({ ...blog, author: e.target.value })} 
+            placeholder="Author name"
+          />
+        </Stack>
         <TextField
           label="Date"
           type="date"
@@ -145,59 +231,111 @@ const BlogForm: React.FC<BlogFormProps> = ({ initialData, blogId }) => {
           InputLabelProps={{ shrink: true }}
         />
 
+        <Typography variant="h6" mt={2}>Content Sections</Typography>
+
         {blog.content.map((section, idx) => (
-          <Paper key={idx} sx={{ p: 2, position: 'relative' }}>
-            <Stack spacing={1}>
+          <Paper key={idx} sx={{ p: 3, bgcolor: 'grey.50' }} elevation={2}>
+            <Typography variant="subtitle2" color="primary" mb={2}>
+              Section {idx + 1}
+            </Typography>
+            <Stack spacing={2}>
               <TextField
-                label="Heading"
+                label="Heading (optional)"
                 fullWidth
                 value={section.heading || ''}
                 onChange={e => handleContentChange(idx, 'heading', e.target.value)}
+                placeholder="Section heading"
               />
               <TextField
                 label="Text"
                 multiline
                 rows={4}
                 fullWidth
+                required
                 value={section.text}
                 onChange={e => handleContentChange(idx, 'text', e.target.value)}
+                placeholder="Write your content here..."
               />
-              <Stack direction="row" spacing={2} alignItems="center">
+              <Stack direction="row" spacing={2} alignItems="center" flexWrap="wrap">
                 <Button
                   variant="outlined"
                   component="label"
                   startIcon={<AddPhotoAlternateIcon />}
                   disabled={uploading}
                 >
-                  {section.image ? 'Change Image' : 'Upload Image'}
+                  {uploading ? 'Uploading...' : section.image ? 'Change Image' : 'Upload Image'}
                   <input 
                     type="file" 
                     hidden 
-                    onChange={e => e.target.files && handleFileUpload(idx, e.target.files[0])} 
+                    accept="image/*"
+                    onChange={e => {
+                      const file = e.target.files?.[0];
+                      if (file) handleFileUpload(idx, file);
+                    }} 
                   />
                 </Button>
                 {section.image && (
-                  <img 
-                    src={section.image} 
-                    alt="blog" 
-                    style={{ height: 80, borderRadius: 8 }} 
-                  />
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <img 
+                      src={section.image} 
+                      alt="section preview" 
+                      style={{ 
+                        height: 80, 
+                        width: 120,
+                        borderRadius: 8, 
+                        objectFit: 'cover',
+                        border: '1px solid #ddd'
+                      }} 
+                    />
+                    <Button 
+                      size="small" 
+                      color="error" 
+                      onClick={() => handleContentChange(idx, 'image', '')}
+                    >
+                      Remove Image
+                    </Button>
+                  </Box>
                 )}
                 <Button 
                   color="error" 
+                  variant="outlined"
                   onClick={() => removeSection(idx)}
                   disabled={blog.content.length === 1}
+                  sx={{ ml: 'auto' }}
                 >
-                  Remove
+                  Remove Section
                 </Button>
               </Stack>
             </Stack>
           </Paper>
         ))}
-        <Button onClick={addSection}>Add Section</Button>
-        <Button variant="contained" onClick={handleSubmit}>
-          {effectiveId ? 'Update' : 'Create'} Blog
+        
+        <Button 
+          variant="outlined" 
+          onClick={addSection}
+          sx={{ alignSelf: 'flex-start' }}
+        >
+          + Add Another Section
         </Button>
+        
+        <Stack direction="row" spacing={2} mt={3}>
+          <Button 
+            variant="contained" 
+            size="large"
+            onClick={handleSubmit}
+            disabled={submitting || uploading}
+          >
+            {submitting ? 'Saving...' : effectiveId ? 'Update Blog' : 'Create Blog'}
+          </Button>
+          <Button 
+            variant="outlined" 
+            size="large"
+            onClick={() => navigate('/admin/blogs')}
+            disabled={submitting}
+          >
+            Cancel
+          </Button>
+        </Stack>
       </Stack>
     </Box>
   );
