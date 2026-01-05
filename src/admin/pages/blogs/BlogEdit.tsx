@@ -5,7 +5,6 @@ import {
   Typography,
   CircularProgress,
   Alert,
-  Paper,
 } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import axios from '../../utils/api';
