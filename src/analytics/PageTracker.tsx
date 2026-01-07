@@ -1,9 +1,9 @@
-// src/analytics/PageTracker.jsx
+// src/analytics/PageTracker.tsx
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { trackPageView } from './ga';
 
-const PageTracker = () => {
+const PageTracker: React.FC = () => {
   const location = useLocation();
 
   useEffect(() => {
@@ -14,3 +14,4 @@ const PageTracker = () => {
 };
 
 export default PageTracker;
+
