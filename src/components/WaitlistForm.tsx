@@ -2,7 +2,7 @@
 import { useState, FormEvent } from 'react';
 import { Box, TextField, Button, Alert, Snackbar, CircularProgress } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import api from '../api/axios'; // Axios instance pointing to your backend
+import api from '../utils/api'; // Axios instance pointing to your backend
 
 interface WaitlistFormProps {
   selectedRole: 'learner' | 'mentor' | 'sme';

@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { Box, GlobalStyles } from '@mui/material';
 
 // Admin Context
-import { AdminProvider } from './admin/context/AdminContext';
+import { AdminProvider } from './context/AdminContext';
 
 // Main Layout Components
 import Navbar from "./layout/Navbar";
@@ -21,14 +21,15 @@ import Terms from "./pages/Terms";
 import About from "./pages/About";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import CookiePolicy from "./pages/CookiePolicy";
+import DiagnosticTest from './pages/admin/DiagnosticTest';
 
 // Admin Pages
-import Login from './admin/pages/Login';
-import Dashboard from './admin/pages/Dashboard';
-import BlogList from './admin/pages/blogs/BlogList';
-import BlogForm from './admin/pages/blogs/BlogForm';
-import JobList from './admin/pages/jobs/JobList';
-import JobForm from './admin/pages/jobs/JobForm';
+import Login from './pages/admin/Login';
+import Dashboard from './pages/admin/Dashboard';
+import BlogList from './pages/admin/blogs/BlogList';
+import BlogForm from './pages/admin/blogs/BlogForm';
+import JobList from './pages/admin/jobs/JobList';
+import JobForm from './pages/admin/jobs/JobForm';
 
 export default function App() {
   return (
@@ -203,6 +204,7 @@ export default function App() {
               <Route path="/about" element={<About />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route path="/cookie-policy" element={<CookiePolicy />} />
+              <Route path="/admin/diagnostic" element={<DiagnosticTest />} />
 
               {/* Admin Routes */}
               <Route path="/admin/login" element={<Login />} />

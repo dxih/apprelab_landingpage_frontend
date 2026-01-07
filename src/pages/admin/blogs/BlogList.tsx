@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Container, Typography, Button, Stack, Card, CardContent, IconButton } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
-import axios from '../../utils/api';
+import axios from '../../../utils/api';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../../hooks/useAuth';
 
 interface Blog {
   _id: string;

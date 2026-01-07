@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, TextField, Button, Typography, Stack, Paper } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from '../../utils/api';
+import axios from '../../../utils/api';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 
 interface BlogSection {

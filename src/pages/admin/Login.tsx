@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { TextField, Button, Container, Typography, Paper, CircularProgress } from '@mui/material';
-import { useAdmin } from '../context/AdminContext';
-import axios from '../utils/api';
+import { useAdmin } from '../../context/AdminContext';
+import axios from '../../utils/api';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {

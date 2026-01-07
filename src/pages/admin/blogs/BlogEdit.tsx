@@ -7,7 +7,7 @@ import {
   Alert,
 } from '@mui/material';
 import { useParams } from 'react-router-dom';
-import axios from '../../utils/api';
+import axios from '../../../utils/api';
 import BlogForm from './BlogForm';
 
 export interface BlogSection {

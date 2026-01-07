@@ -21,13 +21,11 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Load from sessionStorage on mount
   useEffect(() => {
     try {
       const storedToken = sessionStorage.getItem('adminToken');
       const storedAdmin = sessionStorage.getItem('adminData');
       
-      // ✅ Check if values exist AND are not "undefined" string before parsing
       if (storedToken && storedToken !== 'undefined') {
         setToken(storedToken);
       }
@@ -37,13 +35,11 @@ export const AdminProvider = ({ children }: { children: ReactNode }) => {
           setAdmin(JSON.parse(storedAdmin));
         } catch (parseError) {
           console.error('Error parsing admin data:', parseError);
-          // Clear invalid data
           sessionStorage.removeItem('adminData');
         }
       }
     } catch (error) {
       console.error('Error loading admin data:', error);
-      // Clear corrupted data
       sessionStorage.removeItem('adminToken');
       sessionStorage.removeItem('adminData');
     } finally {

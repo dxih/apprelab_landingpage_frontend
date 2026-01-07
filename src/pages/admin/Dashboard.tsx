@@ -5,9 +5,11 @@ import WorkIcon from '@mui/icons-material/Work';
 import LogoutIcon from '@mui/icons-material/Logout';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import { useState, useEffect } from 'react';
+import { useAdmin } from '../../context/AdminContext';
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const { logout } = useAdmin();
   const [stats, setStats] = useState({ blogs: 0, jobs: 0 });
   const [loading, setLoading] = useState(true);
 
@@ -16,12 +18,8 @@ const Dashboard = () => {
       try {
         setLoading(true);
         
-        // Option 1: If your backend returns arrays directly
-        const blogsRes = await fetch('/api/blogs');
-        const jobsRes = await fetch('/api/jobs');
-        
-        console.log('Blogs Response Status:', blogsRes.status);
-        console.log('Jobs Response Status:', jobsRes.status);
+        const blogsRes = await fetch(`${import.meta.env.VITE_API_URL || 'https://apprelab-landingpage-backend.onrender.com/api'}/blogs`);
+        const jobsRes = await fetch(`${import.meta.env.VITE_API_URL || 'https://apprelab-landingpage-backend.onrender.com/api'}/jobs`);
         
         if (!blogsRes.ok || !jobsRes.ok) {
           console.error('API Error - Blogs:', blogsRes.status, 'Jobs:', jobsRes.status);
@@ -31,10 +29,6 @@ const Dashboard = () => {
         const blogsData = await blogsRes.json();
         const jobsData = await jobsRes.json();
         
-        console.log('Blogs Data:', blogsData);
-        console.log('Jobs Data:', jobsData);
-        
-        // Handle different response formats
         setStats({
           blogs: Array.isArray(blogsData) 
             ? blogsData.length 
@@ -45,7 +39,6 @@ const Dashboard = () => {
         });
       } catch (error) {
         console.error('Error fetching stats:', error);
-        // Set to 0 on error
         setStats({ blogs: 0, jobs: 0 });
       } finally {
         setLoading(false);
@@ -56,8 +49,10 @@ const Dashboard = () => {
   }, []);
 
   const handleLogout = () => {
-    // Add your logout logic
-    navigate('/admin/login');
+    if (window.confirm('Are you sure you want to logout?')) {
+      logout();
+      navigate('/admin/login');
+    }
   };
 
   const dashboardCards = [
