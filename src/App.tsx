@@ -9,6 +9,8 @@ import Navbar from "./layout/Navbar";
 import Footer from './layout/Footer';
 import ScrollToTop from './layout/ScrollToTop';
 import CookieBanner from './components/CookieBanner';
+import PageTracker from './analytics/PageTracker';
+
 
 // Main Pages
 import Home from "./pages/Home";
@@ -59,6 +61,7 @@ export default function App() {
 
       <Router>
         <ScrollToTop />
+        <PageTracker />
         <Box
           sx={{
             minHeight: '100vh',

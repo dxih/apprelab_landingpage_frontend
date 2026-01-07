@@ -38,10 +38,15 @@ const DiagnosticTest = () => {
     // Test 3: Test health endpoint
     console.log('=== TEST 3: Health Check ===');
     try {
-      const healthUrl = axios.defaults.baseURL.replace('/api', '/health');
-      const healthRes = await fetch(healthUrl);
-      const healthData = await healthRes.json();
-      addResult('Health Check', 'success', 'Backend is healthy', healthData);
+      const base = axios.defaults.baseURL;
+      if (!base) {
+        addResult('Health Check', 'error', 'axios.defaults.baseURL is undefined');
+      } else {
+        const healthUrl = base.replace('/api', '/health');
+        const healthRes = await fetch(healthUrl);
+        const healthData = await healthRes.json();
+        addResult('Health Check', 'success', 'Backend is healthy', healthData);
+      }
     } catch (err: any) {
       addResult('Health Check', 'error', err.message);
     }
