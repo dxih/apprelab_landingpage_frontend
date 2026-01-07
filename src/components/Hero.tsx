@@ -51,8 +51,11 @@ const Hero = () => {
               }}
             >
               <span style={{ color: '#0057FF' }}>Learn</span>
-              <span style={{ color: '#FFD93D' }}>, Earn</span>
-              <span style={{ color: '#1A1A1A' }}>, and Build Real Experience</span>
+              {' '}
+              <span style={{ color: '#FFD93D' }}> Build Real Experience </span>
+              {' '}
+              <span style={{ color: '#1A1A1A' }}> and Earn.</span>
+              {' '}
             </Typography>
 
             <Typography 
