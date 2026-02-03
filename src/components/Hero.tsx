@@ -296,8 +296,7 @@ const Hero = () => {
   <br />  
   {'  )'}  
   <br />{'}'}  
-</Box>  
-</Box>
+</Box> 
 
               </Box>
 
