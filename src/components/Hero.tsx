@@ -236,66 +236,67 @@ const Hero = () => {
                 }}
               >
                 <Box>
-  <Box component="span" sx={{ color: '#C586C0', fontWeight: 'bold' }}>import</Box>{' '}
-  <Box component="span" sx={{ color: '#4EC9B0' }}>React</Box>,{' '}
-  <Box component="span" sx={{ color: '#569CD6' }}>{'{ useState, useEffect }'}</Box>{' '}
-  <Box component="span" sx={{ color: '#C586C0', fontWeight: 'bold' }}>from</Box>{' '}
-  <Box component="span" sx={{ color: '#CE9178' }}>'react'</Box>
-  <br />
-
-  <Box component="span" sx={{ color: '#C586C0', fontWeight: 'bold' }}>import</Box>{' '}
-  <Box component="span" sx={{ color: '#4EC9B0' }}>Login</Box>{' '}
-  <Box component="span" sx={{ color: '#C586C0', fontWeight: 'bold' }}>from</Box>{' '}
-  <Box component="span" sx={{ color: '#CE9178' }}>'./pages/Login'</Box>
-  <br />
-
-  <Box component="span" sx={{ color: '#C586C0', fontWeight: 'bold' }}>import</Box>{' '}
-  <Box component="span" sx={{ color: '#4EC9B0' }}>Dashboard</Box>{' '}
-  <Box component="span" sx={{ color: '#C586C0', fontWeight: 'bold' }}>from</Box>{' '}
-  <Box component="span" sx={{ color: '#CE9178' }}>'./pages/Dashboard'</Box>
-  <br /><br />
-
-  <Box component="span" sx={{ color: '#569CD6', fontWeight: 'bold' }}>const</Box>{' '}
-  <Box component="span" sx={{ color: '#4EC9B0' }}>App</Box>{' = () => {'}
-  <br />{'  '}
-  <Box component="span" sx={{ color: '#569CD6', fontWeight: 'bold' }}>const</Box>{' '}
-  <Box component="span" sx={{ color: '#9CDCFE' }}>[isAuthenticated, setIsAuthenticated]</Box>{' '}
-  = <Box component="span" sx={{ color: '#C586C0' }}>useState</Box>(false)
-  <br /><br />
-
-  {'  '}
-  <Box component="span" sx={{ color: '#C586C0' }}>useEffect</Box>(() => {'{'}
-  <br />{'    // check user session on mount'}
-  <br />{'    '}
-  <Box component="span" sx={{ color: '#C586C0' }}>console</Box>.
-  <Box component="span" sx={{ color: '#DCDCAA' }}>log</Box>
-  ({' '}
-  <Box component="span" sx={{ color: '#CE9178' }}>'Initializing App…'</Box>{' '}
-  )
-  <br />{'  '}{'}'}, [])
-  <br /><br />
-
-  {'  '}
-  <Box component="span" sx={{ color: '#C586C0', fontWeight: 'bold' }}>return</Box> {' ('}
-  <br />{'    <'}
-  <Box component="span" sx={{ color: '#4EC9B0' }}>Route</Box>{' '}
-  <Box component="span" sx={{ color: '#9CDCFE' }}>path</Box>
-  <Box component="span" sx={{ color: '#D4D4D4' }}>=</Box>
-  <Box component="span" sx={{ color: '#CE9178' }}>"/login"</Box>
-  <Box component="span" sx={{ color: '#D4D4D4' }}>{'>'}</Box>
-  <br />{'      <'}
-  <Box component="span" sx={{ color: '#4EC9B0' }}>Login</Box>{' '}
-  <Box component="span" sx={{ color: '#9CDCFE' }}>onSuccess</Box>
-  <Box component="span" sx={{ color: '#D4D4D4' }}>=</Box>{'{' }
-  <Box component="span" sx={{ color: '#C586C0' }}>() => setIsAuthenticated(true)</Box>
-  {' }'}
-  <Box component="span" sx={{ color: '#D4D4D4' }}>{' />'}</Box>
-  <br />{'    </'}
-  <Box component="span" sx={{ color: '#4EC9B0' }}>Route</Box>
-  <Box component="span" sx={{ color: '#D4D4D4' }}>{'>'}</Box>
-  <br />
-  {'  )'}
-  <br>{'}'}
+  <Box component="span" sx={{ color: '#C586C0', fontWeight: 'bold' }}>import</Box>{' '}  
+  <Box component="span" sx={{ color: '#4EC9B0' }}>React</Box>,{' '}  
+  <Box component="span" sx={{ color: '#569CD6' }}>{'{ useState, useEffect }'}</Box>{' '}  
+  <Box component="span" sx={{ color: '#C586C0', fontWeight: 'bold' }}>from</Box>{' '}  
+  <Box component="span" sx={{ color: '#CE9178' }}>'react'</Box>  
+  <br />  
+  
+  <Box component="span" sx={{ color: '#C586C0', fontWeight: 'bold' }}>import</Box>{' '}  
+  <Box component="span" sx={{ color: '#4EC9B0' }}>Login</Box>{' '}  
+  <Box component="span" sx={{ color: '#C586C0', fontWeight: 'bold' }}>from</Box>{' '}  
+  <Box component="span" sx={{ color: '#CE9178' }}>'./pages/Login'</Box>  
+  <br />  
+  
+  <Box component="span" sx={{ color: '#C586C0', fontWeight: 'bold' }}>import</Box>{' '}  
+  <Box component="span" sx={{ color: '#4EC9B0' }}>Dashboard</Box>{' '}  
+  <Box component="span" sx={{ color: '#C586C0', fontWeight: 'bold' }}>from</Box>{' '}  
+  <Box component="span" sx={{ color: '#CE9178' }}>'./pages/Dashboard'</Box>  
+  <br /><br />  
+  
+  <Box component="span" sx={{ color: '#569CD6', fontWeight: 'bold' }}>const</Box>{' '}  
+  <Box component="span" sx={{ color: '#4EC9B0' }}>App</Box>{' = () => {'}  
+  <br />{'  '}  
+  <Box component="span" sx={{ color: '#569CD6', fontWeight: 'bold' }}>const</Box>{' '}  
+  <Box component="span" sx={{ color: '#9CDCFE' }}>[isAuthenticated, setIsAuthenticated]</Box>{' '}  
+  = <Box component="span" sx={{ color: '#C586C0' }}>useState</Box>(false)  
+  <br /><br />  
+  
+  {'  '}  
+  <Box component="span" sx={{ color: '#C586C0' }}>useEffect</Box>(() = {'{'}  
+  <br />{'    // check user session on mount'}  
+  <br />{'    '}  
+  <Box component="span" sx={{ color: '#C586C0' }}>console</Box>.  
+  <Box component="span" sx={{ color: '#DCDCAA' }}>log</Box>  
+  ({' '}  
+  <Box component="span" sx={{ color: '#CE9178' }}>'Initializing App…'</Box>{' '}  
+  )  
+  <br />{'  '}{'}'}, [])  
+  <br /><br />  
+  
+  {'  '}  
+  <Box component="span" sx={{ color: '#C586C0', fontWeight: 'bold' }}>return</Box> {' ('}  
+  <br />{'    <'}  
+  <Box component="span" sx={{ color: '#4EC9B0' }}>Route</Box>{' '}  
+  <Box component="span" sx={{ color: '#9CDCFE' }}>path</Box>  
+  <Box component="span" sx={{ color: '#D4D4D4' }}>=</Box>  
+  <Box component="span" sx={{ color: '#CE9178' }}>"/login"</Box>  
+  <Box component="span" sx={{ color: '#D4D4D4' }}>{'>'}</Box>  
+  <br />{'      <'}  
+  <Box component="span" sx={{ color: '#4EC9B0' }}>Login</Box>{' '}  
+  <Box component="span" sx={{ color: '#9CDCFE' }}>onSuccess</Box>  
+  <Box component="span" sx={{ color: '#D4D4D4' }}>=</Box>{'{' }  
+  <Box component="span" sx={{ color: '#C586C0' }}>() = setIsAuthenticated(true)</Box>  
+  {' }'}  
+  <Box component="span" sx={{ color: '#D4D4D4' }}>{' />'}</Box>  
+  <br />{'    </'}  
+  <Box component="span" sx={{ color: '#4EC9B0' }}>Route</Box>  
+  <Box component="span" sx={{ color: '#D4D4D4' }}>{'>'}</Box>  
+  <br />  
+  {'  )'}  
+  <br />{'}'}  
+</Box>  
 </Box>
 
               </Box>
