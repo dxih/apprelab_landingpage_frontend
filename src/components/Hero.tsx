@@ -5,7 +5,8 @@ import {
   RadioGroup, 
   FormControlLabel, 
   Radio, 
-  FormLabel 
+  FormLabel,
+  useTheme
 } from '@mui/material';
 
 import { useState } from 'react';
@@ -18,6 +19,7 @@ import VerifiedIcon from '@mui/icons-material/Verified';
 
 const Hero = () => {  
 
+  const theme = useTheme(); // Access theme colors
   const [role, setRole] = useState<"learner" | "mentor" | "sme">("learner");
 
   return (
@@ -50,12 +52,11 @@ const Hero = () => {
                 }
               }}
             >
-              <span style={{ color: '#0057FF' }}>Learn</span>
+              <span style={{ color: theme.palette.primary.main }}>Learn</span>
               {' '}
-              <span style={{ color: '#FFD93D' }}> Build Real Experience </span>
+              <span style={{ color: theme.palette.secondary.main }}> Build Real Experience </span>
               {' '}
               <span style={{ color: '#1A1A1A' }}> and Earn.</span>
-              {' '}
             </Typography>
 
             <Typography 
@@ -68,8 +69,8 @@ const Hero = () => {
                 fontSize: { xs: '0.95rem', md: '1.125rem' },
               }}
             >
-            apprelab™ blends focused micro-learning with real-world projects, giving you hands-on experience and guided mentorship to build skills that truly matter.
-             </Typography>
+              apprelab™ blends focused micro-learning with real-world projects, giving you hands-on experience and guided mentorship to build skills that truly matter.
+            </Typography>
 
             {/* FEATURES GRID */}
             <Box sx={{ 
@@ -79,10 +80,10 @@ const Hero = () => {
               mb: 5,
             }}>
               {[
-                { icon: SchoolIcon, text: 'Affordable Micro-Courses', color: 'primary.main' },
-                { icon: AttachMoneyIcon, text: 'Real Paid Projects', color: 'secondary.main' },
-                { icon: GroupsIcon, text: 'Mentor Guidance', color: 'primary.main' },
-                { icon: VerifiedIcon, text: 'Verified Certifications', color: 'secondary.main' },
+                { icon: SchoolIcon, text: 'Affordable Micro-Courses', color: theme.palette.primary.main },
+                { icon: AttachMoneyIcon, text: 'Real Paid Projects', color: theme.palette.secondary.main },
+                { icon: GroupsIcon, text: 'Mentor Guidance', color: theme.palette.primary.main },
+                { icon: VerifiedIcon, text: 'Verified Certifications', color: theme.palette.secondary.main },
               ].map((feature, i) => (
                 <Box 
                   key={i}
@@ -94,12 +95,12 @@ const Hero = () => {
                     borderRadius: 2,
                     background: 'rgba(255, 255, 255, 0.6)',
                     backdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(0, 87, 255, 0.1)',
+                    border: `1px solid ${theme.palette.primary.main}10`,
                     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                     '&:hover': {
                       transform: 'translateY(-4px)',
-                      boxShadow: '0 8px 24px rgba(0, 87, 255, 0.15)',
-                      borderColor: 'rgba(0, 87, 255, 0.3)',
+                      boxShadow: `0 8px 24px ${theme.palette.primary.main}15`,
+                      borderColor: `${theme.palette.primary.main}30`,
                     }
                   }}
                 >
@@ -118,8 +119,8 @@ const Hero = () => {
                 borderRadius: 3,
                 background: 'rgba(255, 255, 255, 0.8)',
                 backdropFilter: 'blur(10px)',
-                border: '2px solid rgba(0, 87, 255, 0.1)',
-                boxShadow: '0 8px 32px rgba(0, 87, 255, 0.1)',
+                border: `2px solid ${theme.palette.primary.main}10`,
+                boxShadow: `0 8px 32px ${theme.palette.primary.main}1A`,
               }}
             >
               <Typography variant="h3" sx={{ mb: 2, fontSize: { xs: '1.5rem', md: '1.75rem' } }}>
@@ -195,12 +196,12 @@ const Hero = () => {
               height: '600px',
               borderRadius: '20px',
               overflow: 'hidden',
-              boxShadow: '0 20px 60px rgba(0, 87, 255, 0.2), 0 20px 60px rgba(255, 217, 61, 0.15)',
-              border: '1px solid rgba(0, 87, 255, 0.2)',
+              boxShadow: `0 20px 60px ${theme.palette.primary.main}33, 0 20px 60px ${theme.palette.secondary.main}26`,
+              border: `1px solid ${theme.palette.primary.main}33`,
               transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
               '&:hover': {
                 transform: 'translateY(-8px) scale(1.02)',
-                boxShadow: '0 30px 80px rgba(0, 87, 255, 0.3), 0 30px 80px rgba(255, 217, 61, 0.2)',
+                boxShadow: `0 30px 80px ${theme.palette.primary.main}4D, 0 30px 80px ${theme.palette.secondary.main}33`,
               }
             }}>
               
@@ -225,7 +226,7 @@ const Hero = () => {
                     left: 0,
                     width: '300%',
                     height: '4px',
-                    background: 'linear-gradient(90deg, transparent, #FFD93D, #0057FF, #FFD93D, transparent)',
+                    background: `linear-gradient(90deg, transparent, ${theme.palette.secondary.main}, ${theme.palette.primary.main}, ${theme.palette.secondary.main}, transparent)`,
                     animation: 'shimmer 3s linear infinite',
                   },
                   '@keyframes shimmer': {
@@ -263,7 +264,7 @@ const Hero = () => {
   <br /><br />
 
   {'  '}
-  <Box component="span" sx={{ color: '#C586C0' }}>useEffect</Box>(() = {'{'}
+  <Box component="span" sx={{ color: '#C586C0' }}>useEffect</Box>(() => {'{'}
   <br />{'    // check user session on mount'}
   <br />{'    '}
   <Box component="span" sx={{ color: '#C586C0' }}>console</Box>.
@@ -286,7 +287,7 @@ const Hero = () => {
   <Box component="span" sx={{ color: '#4EC9B0' }}>Login</Box>{' '}
   <Box component="span" sx={{ color: '#9CDCFE' }}>onSuccess</Box>
   <Box component="span" sx={{ color: '#D4D4D4' }}>=</Box>{'{' }
-  <Box component="span" sx={{ color: '#C586C0' }}>() = setIsAuthenticated(true)</Box>
+  <Box component="span" sx={{ color: '#C586C0' }}>() => setIsAuthenticated(true)</Box>
   {' }'}
   <Box component="span" sx={{ color: '#D4D4D4' }}>{' />'}</Box>
   <br />{'    </'}
@@ -294,8 +295,9 @@ const Hero = () => {
   <Box component="span" sx={{ color: '#D4D4D4' }}>{'>'}</Box>
   <br />
   {'  )'}
-  <br />{'}'}
+  <br>{'}'}
 </Box>
+
               </Box>
 
               {/* TERMINAL TAB */}
@@ -315,8 +317,8 @@ const Hero = () => {
                 color: '#D4D4D4',
                 fontFamily: '"Fira Code", "Consolas", monospace',
               }}>
-                <Box sx={{ color: '#FFD93D', fontWeight: 'bold', fontSize: '0.75rem' }}>TERMINAL</Box>
-                <Box sx={{ color: '#0057FF', fontWeight: 500 }}>▶</Box>
+                <Box sx={{ color: theme.palette.secondary.main, fontWeight: 'bold', fontSize: '0.75rem' }}>TERMINAL</Box>
+                <Box sx={{ color: theme.palette.primary.main, fontWeight: 500 }}>▶</Box>
                 <Box sx={{ color: '#4EC9B0' }}>npm start</Box>
               </Box>
 
