@@ -46,7 +46,7 @@ export default function CareerJobDetail() {
   }
 
   return (
-    <Container sx={{ py: 4 }}>
+    <Container sx={{ py: 4 ,     pt: { xs: 4, md: 14 } }}>
       <Typography variant="h3" sx={{ mb: 2, fontWeight: 800 }}>
         {job.title}
       </Typography>

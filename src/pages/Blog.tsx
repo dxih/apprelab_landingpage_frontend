@@ -55,19 +55,19 @@ export default function Blog() {
 
   if (loading) {
     return (
-      <Container sx={{ py: 10, textAlign: "center" }}>
+      <Container sx={{ py: 10, textAlign: "center",     pt: { xs: 4, md: 14 }, }}>
         <CircularProgress />
       </Container>
     );
   }
 
   return (
-    <Container sx={{ py: 7 }}>
+    <Container sx={{ py: 7 ,     pt: { xs: 4, md: 14 }}}>
       <Typography
         variant="h3"
         sx={{ mb: 6, fontWeight: 700, textAlign: "center" }}
       >
-        apprelab™ Blog
+        Blogs
       </Typography>
 
       <Box

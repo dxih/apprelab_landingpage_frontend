@@ -2,7 +2,7 @@ import { Container, Typography, Box } from "@mui/material";
 
 export default function CookiePolicy() {
   return (
-    <Container sx={{ py: 7, maxWidth: "md" }}>
+    <Container sx={{ py: 7, maxWidth: "md" ,     pt: { xs: 4, md: 14 }}}>
       {/* TITLE */}
       <Typography variant="h3" sx={{ fontWeight: 800, mb: 1 }}>
         Apprelab Cookie Policy

@@ -24,12 +24,12 @@ export default function Careers() {
   }, []);
 
   return (
-    <Container sx={{ py: 7 }}>
+    <Container sx={{ py: 15 }}>
       <Typography variant="h3" sx={{ mb: 2, fontWeight: 700 }}>
-        Careers at <span style={{ color: "#0057FF" }}>apprelab™</span>
+        Careers at <span style={{ color: "#0057FF" }}>apprelab</span>
       </Typography>
 
-      <Typography sx={{ color: "#475569", mb: 6, fontSize: "1.1rem" }}>
+      <Typography sx={{ color: "#475569", mb: 6, fontSize: "1.1rem",fontFamily: "Poppins, sans-serif" }}>
         Apply for available roles before our official launch. Join the early team
         and help shape the future of practical tech education!
       </Typography>
@@ -43,6 +43,8 @@ export default function Careers() {
             flexWrap: "wrap",
             gap: 4,
             justifyContent: "space-between",
+                pt: { xs: 4, md: 14 },
+
           }}
         >
           {jobs.map((job) => (
