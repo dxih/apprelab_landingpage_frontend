@@ -40,6 +40,8 @@ export default function Navbar() {
           backdropFilter: "blur(14px)",
           background: "rgba(255, 255, 255, 0.65)",
           borderBottom: "1px solid rgba(0, 0, 0, 0.06)",
+          // FONT FAMILY FIX
+          fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
         }}
       >
         <Toolbar
@@ -67,7 +69,6 @@ export default function Navbar() {
               sx={{ height: 40 }}
               alt="Apprelab Logo"
             />
-
           </Box>
 
           {/* DESKTOP NAV */}
@@ -80,6 +81,8 @@ export default function Navbar() {
                 variant="h6"
                 sx={{
                   textDecoration: "none",
+                  // FONT FAMILY FIX
+                  fontFamily: 'inherit',
                   color: pathname === link.to ? "#0057FF" : "#1E293B",
                   fontWeight: pathname === link.to ? 600 : 500,
                   transition: "0.25s",
@@ -107,11 +110,16 @@ export default function Navbar() {
         open={open}
         onClose={() => setOpen(false)}
         PaperProps={{
-          sx: { width: 260, paddingTop: 2 },
+          sx: { 
+            width: 260, 
+            paddingTop: 2,
+            // FONT FAMILY FIX
+            fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+          },
         }}
       >
         <Box sx={{ px: 2, pb: 1 }}>
-          <Typography variant="h6" sx={{ fontSize: "1rem", fontWeight: 900, mb: 1 }}>
+          <Typography variant="h6" sx={{ fontSize: "1rem", fontWeight: 900, mb: 1, fontFamily: 'inherit' }}>
             Menu
           </Typography>
         </Box>
@@ -137,6 +145,8 @@ export default function Navbar() {
                 primaryTypographyProps={{
                   variant: "h6",
                   sx: {
+                    // FONT FAMILY FIX
+                    fontFamily: 'inherit',
                     fontWeight: pathname === link.to ? 600 : 500,
                     color: pathname === link.to ? "#0057FF" : "#1E293B",
                     fontSize: "1rem",

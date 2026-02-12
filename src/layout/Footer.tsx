@@ -59,6 +59,8 @@ const Footer = () => {
         backdropFilter: "blur(10px)",
         borderTop: "1px solid rgba(0, 87, 255, 0.1)",
         mt: 10,
+        // FONT FAMILY FIX
+        fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
       }}
     >
       <Container maxWidth="lg">
@@ -83,7 +85,12 @@ const Footer = () => {
 
             <Typography
               variant="body2"
-              sx={{ color: "#64748B", fontWeight: 500, mb: 2 }}
+              sx={{ 
+                fontFamily: "inherit", 
+                color: "#64748B", 
+                fontWeight: 500, 
+                mb: 2 
+              }}
             >
               Bridging the gap between learning and real-world experience.
             </Typography>
@@ -180,11 +187,17 @@ const Footer = () => {
               mx: { xs: "auto", md: 0 },
             }}
           >
-            <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
+            <Typography 
+              variant="h6" 
+              sx={{ fontFamily: "inherit", fontWeight: 700, mb: 1 }}
+            >
               Join our newsletter
             </Typography>
 
-            <Typography variant="body2" sx={{ color: "#64748B", mb: 2 }}>
+            <Typography 
+              variant="body2" 
+              sx={{ fontFamily: "inherit", color: "#64748B", mb: 2 }}
+            >
               Get updates on new courses, WorkLab projects, and opportunities.
             </Typography>
 
@@ -195,7 +208,10 @@ const Footer = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              sx={{ mb: 1.5 }}
+              sx={{ 
+                mb: 1.5,
+                "& input": { fontFamily: "inherit" } 
+              }}
             />
 
             <Button
@@ -204,6 +220,7 @@ const Footer = () => {
               disabled={loading}
               onClick={handleNewsletterSubmit}
               sx={{
+                fontFamily: "inherit",
                 textTransform: "none",
                 fontWeight: 600,
                 background: "#0057FF",
@@ -214,7 +231,10 @@ const Footer = () => {
             </Button>
 
             {message && (
-              <Typography variant="body2" sx={{ mt: 1, color: "#0057FF" }}>
+              <Typography 
+                variant="body2" 
+                sx={{ fontFamily: "inherit", mt: 1, color: "#0057FF" }}
+              >
                 {message}
               </Typography>
             )}
@@ -225,6 +245,7 @@ const Footer = () => {
         <Typography
           variant="body2"
           sx={{
+            fontFamily: "inherit",
             textAlign: "center",
             mt: 4,
             pt: 3,
@@ -248,6 +269,7 @@ const FooterLink = ({ text, to }: { text: string; to: string }) => (
     underline="none"
     variant="h6"
     sx={{
+      fontFamily: "inherit",
       color: "#475569",
       fontWeight: 600,
       textDecoration: "none",
