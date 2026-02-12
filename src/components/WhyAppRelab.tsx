@@ -33,15 +33,31 @@ const features = [
 
 const WhyAppRelab = () => {
   return (
-    <Box sx={{ py: { xs: 8, md: 12 }, position: 'relative' }}>
+    <Box 
+      sx={{ 
+        py: { xs: 8, md: 12 }, 
+        position: 'relative',
+        fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
+      }}
+    >
       <Container maxWidth="lg">
         {/* Section Heading */}
         <Box sx={{ textAlign: 'center', mb: 8 }}>
-          <Typography variant="h2" sx={{ mb: 2 }}>
+          <Typography 
+            variant="h2" 
+            sx={{ 
+              mb: 2, 
+              fontFamily: 'inherit', 
+              fontWeight: 800,
+              fontSize: { xs: '2.2rem', md: '3rem' } 
+            }}
+          >
             Why{' '}
             <Box
               component="span"
               sx={{
+                color: '#0057FF',
+                // Keeping original clip logic but ensuring it stands out
                 background: '#0057FF',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -55,9 +71,11 @@ const WhyAppRelab = () => {
           <Typography
             variant="body1"
             sx={{
-              color: 'text.primary',
+              fontFamily: 'inherit',
+              color: '#475569',
               maxWidth: '700px',
               mx: 'auto',
+              fontSize: '1.1rem',
             }}
           >
             The platform that bridges the gap between learning and real-world experience
@@ -106,8 +124,10 @@ const WhyAppRelab = () => {
                   variant="h3"
                   sx={{
                     mb: 2,
+                    fontFamily: 'inherit',
+                    fontWeight: 700,
                     fontSize: '1.5rem',
-                    color: '#1A1A1A',
+                    color: '#1E293B',
                   }}
                 >
                   {feature.title}
@@ -116,8 +136,10 @@ const WhyAppRelab = () => {
                 <Typography
                   variant="body2"
                   sx={{
-                    color: '#333333',
+                    fontFamily: 'inherit',
+                    color: '#475569',
                     lineHeight: 1.8,
+                    fontSize: '0.95rem',
                   }}
                 >
                   {feature.description}

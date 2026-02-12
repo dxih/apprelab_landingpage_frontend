@@ -35,8 +35,9 @@ const HowItWorks = () => {
   return (
     <Box 
       sx={{ 
-        py: { xs: 3, md: 4 }, 
+        py: { xs: 8, md: 12 }, 
         position: 'relative',
+        fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
       }}
     >
       <Container maxWidth="lg">
@@ -45,10 +46,12 @@ const HowItWorks = () => {
             variant="h2"
             sx={{
               mb: 3,
+              fontFamily: 'inherit',
               background: 'linear-gradient(135deg, #0057FF 0%, #1A1A1A 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
-              fontWeight: 700,
+              fontWeight: 800,
+              fontSize: { xs: '2.2rem', md: '3rem' },
             }}
           >
             How apprelab™ Works
@@ -56,6 +59,7 @@ const HowItWorks = () => {
           <Typography
             variant="body1"
             sx={{
+              fontFamily: 'inherit',
               color: '#64748B',
               maxWidth: '600px',
               mx: 'auto',
@@ -151,14 +155,13 @@ const HowItWorks = () => {
                 {step.icon}
               </Box>
 
-              {/* Removed the number badge here */}
-
               {/* Step Text */}
               <Typography
                 variant="h3"
                 className="step-title"
                 sx={{
                   mb: 1.5,
+                  fontFamily: 'inherit',
                   fontSize: '1.375rem',
                   color: '#1A1A1A',
                   fontWeight: 700,
@@ -170,6 +173,7 @@ const HowItWorks = () => {
               <Typography
                 variant="body2"
                 sx={{ 
+                  fontFamily: 'inherit',
                   color: '#64748B', 
                   lineHeight: 1.7,
                   fontSize: '1rem',
@@ -187,6 +191,7 @@ const HowItWorks = () => {
           <Typography
             variant="body1"
             sx={{
+              fontFamily: 'inherit',
               color: '#475569',
               fontSize: '1.125rem',
               fontWeight: 500,
@@ -196,14 +201,13 @@ const HowItWorks = () => {
             <Box
               component="span"
               sx={{
-                background: '#0057FF',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
+                color: '#0057FF',
                 fontWeight: 700,
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
                 '&:hover': {
                   opacity: 0.8,
+                  textDecoration: 'underline'
                 }
               }}
             >
