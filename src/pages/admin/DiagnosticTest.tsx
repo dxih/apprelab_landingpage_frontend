@@ -109,7 +109,7 @@ const DiagnosticTest = () => {
   };
 
   return (
-    <Box p={4} maxWidth="1200px" mx="auto">
+    <Box p={4} maxWidth="1200px" mx="auto" >
       <Paper elevation={3} sx={{ p: 4 }}>
         <Typography variant="h4" mb={3} fontWeight="bold">
           🔍 API Diagnostic Tool

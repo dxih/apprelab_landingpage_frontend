@@ -1,38 +1,34 @@
-import { Container, Typography, Button, Stack, Box, Card, CardContent, Chip, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { Container, Typography, Button, Stack, Box, Card, CardContent, Chip } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import ArticleIcon from '@mui/icons-material/Article';
 import WorkIcon from '@mui/icons-material/Work';
 import LogoutIcon from '@mui/icons-material/Logout';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import AssessmentIcon from '@mui/icons-material/Assessment';
 import { useState, useEffect } from 'react';
 import { useAdmin } from '../../context/AdminContext';
-import { useLocalAnalytics } from "../../hooks/useLocalAnalytics";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const { logout } = useAdmin();
   const [stats, setStats] = useState({ blogs: 0, jobs: 0 });
   const [loading, setLoading] = useState(true);
-  const analytics = useLocalAnalytics();
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
         setLoading(true);
-        
+
         const blogsRes = await fetch(`${import.meta.env.VITE_API_URL || 'https://apprelab-landingpage-backend.onrender.com/api'}/blogs`);
         const jobsRes = await fetch(`${import.meta.env.VITE_API_URL || 'https://apprelab-landingpage-backend.onrender.com/api'}/jobs`);
-        
+
         if (!blogsRes.ok || !jobsRes.ok) {
           console.error('API Error - Blogs:', blogsRes.status, 'Jobs:', jobsRes.status);
           return;
         }
-        
+
         const blogsData = await blogsRes.json();
         const jobsData = await jobsRes.json();
-        
+
         setStats({
           blogs: Array.isArray(blogsData) 
             ? blogsData.length 
@@ -48,7 +44,7 @@ const Dashboard = () => {
         setLoading(false);
       }
     };
-    
+
     fetchStats();
   }, []);
 
@@ -86,25 +82,6 @@ const Dashboard = () => {
     if (hour < 18) return 'Good Afternoon';
     return 'Good Evening';
   };
-
-  // Prepare analytics data
-  const pageViewsData = Object.entries(analytics.getPageViewsByPage())
-    .map(([page, count]) => ({ 
-      page: page.length > 20 ? page.substring(0, 20) + '...' : page, 
-      fullPage: page,
-      views: count 
-    }))
-    .sort((a, b) => b.views - a.views)
-    .slice(0, 10);
-
-  const clickData = Object.entries(analytics.getClicksByElement())
-    .map(([element, count]) => ({ 
-      element: element.length > 30 ? element.substring(0, 30) + '...' : element,
-      fullElement: element,
-      clicks: count 
-    }))
-    .sort((a, b) => b.clicks - a.clicks)
-    .slice(0, 10);
 
   return (
     <Box sx={{ minHeight: '100vh', py: 4 }}>
@@ -220,177 +197,6 @@ const Dashboard = () => {
               </Card>
             ))}
           </Stack>
-        </Box>
-
-        {/* Analytics Section */}
-        <Box sx={{ mb: 4 }}>
-          <Stack direction="row" alignItems="center" spacing={1} mb={3}>
-            <AssessmentIcon sx={{ color: 'black' }} />
-            <Typography variant="h6" color="black" fontWeight="600">
-              Analytics Dashboard
-            </Typography>
-          </Stack>
-
-          {/* Page Views Chart */}
-          <Box sx={{ 
-            mb: 4,
-            p: 4,
-            borderRadius: 3,
-            background: 'rgba(255, 255, 255, 0.95)',
-            backdropFilter: 'blur(10px)',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
-          }}>
-            <Typography variant="h6" fontWeight="600" mb={3}>
-              Page Views
-            </Typography>
-            {pageViewsData.length > 0 ? (
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={pageViewsData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis 
-                    dataKey="page" 
-                    angle={-45}
-                    textAnchor="end"
-                    height={100}
-                  />
-                  <YAxis />
-                  <Tooltip 
-                    content={({ active, payload }) => {
-                      if (active && payload && payload.length) {
-                        return (
-                          <Box sx={{ 
-                            bgcolor: 'white', 
-                            p: 2, 
-                            border: '1px solid #ddd',
-                            borderRadius: 1,
-                            boxShadow: 2
-                          }}>
-                            <Typography variant="body2" fontWeight="600">
-                              {payload[0].payload.fullPage}
-                            </Typography>
-                            <Typography variant="body2" color="primary">
-                              Views: {payload[0].value}
-                            </Typography>
-                          </Box>
-                        );
-                      }
-                      return null;
-                    }}
-                  />
-                  <Legend />
-                  <Bar dataKey="views" fill="#0057FF" name="Page Views" />
-                </BarChart>
-              </ResponsiveContainer>
-            ) : (
-              <Typography variant="body2" color="text.secondary" textAlign="center" py={4}>
-                No page view data yet. Start browsing to see analytics!
-              </Typography>
-            )}
-          </Box>
-
-          {/* Clicks Chart */}
-          <Box sx={{ 
-            mb: 4,
-            p: 4,
-            borderRadius: 3,
-            background: 'rgba(255, 255, 255, 0.95)',
-            backdropFilter: 'blur(10px)',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
-          }}>
-            <Typography variant="h6" fontWeight="600" mb={3}>
-              Top Clicks
-            </Typography>
-            {clickData.length > 0 ? (
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={clickData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis 
-                    dataKey="element" 
-                    angle={-45}
-                    textAnchor="end"
-                    height={100}
-                  />
-                  <YAxis />
-                  <Tooltip 
-                    content={({ active, payload }) => {
-                      if (active && payload && payload.length) {
-                        return (
-                          <Box sx={{ 
-                            bgcolor: 'white', 
-                            p: 2, 
-                            border: '1px solid #ddd',
-                            borderRadius: 1,
-                            boxShadow: 2
-                          }}>
-                            <Typography variant="body2" fontWeight="600">
-                              {payload[0].payload.fullElement}
-                            </Typography>
-                            <Typography variant="body2" sx={{ color: '#FFB300' }}>
-                              Clicks: {payload[0].value}
-                            </Typography>
-                          </Box>
-                        );
-                      }
-                      return null;
-                    }}
-                  />
-                  <Legend />
-                  <Bar dataKey="clicks" fill="#FFB300" name="Click Count" />
-                </BarChart>
-              </ResponsiveContainer>
-            ) : (
-              <Typography variant="body2" color="text.secondary" textAlign="center" py={4}>
-                No click data yet. Start interacting to see analytics!
-              </Typography>
-            )}
-          </Box>
-
-          {/* Raw Events Table */}
-          <Box sx={{ 
-            p: 4,
-            borderRadius: 3,
-            background: 'rgba(255, 255, 255, 0.95)',
-            backdropFilter: 'blur(10px)',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
-          }}>
-            <Typography variant="h6" fontWeight="600" mb={3}>
-              Recent Events
-            </Typography>
-            {analytics.events.length > 0 ? (
-              <TableContainer component={Paper} sx={{ maxHeight: 400 }}>
-                <Table stickyHeader size="small">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell sx={{ fontWeight: 600 }}>Type</TableCell>
-                      <TableCell sx={{ fontWeight: 600 }}>Page</TableCell>
-                      <TableCell sx={{ fontWeight: 600 }}>Element</TableCell>
-                      <TableCell sx={{ fontWeight: 600 }}>Time</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {[...analytics.events].reverse().slice(0, 50).map((e, idx) => (
-                      <TableRow key={idx} hover>
-                        <TableCell>
-                          <Chip 
-                            label={e.type} 
-                            size="small" 
-                            color={e.type === 'pageview' ? 'primary' : 'secondary'}
-                          />
-                        </TableCell>
-                        <TableCell>{e.page}</TableCell>
-                        <TableCell>{e.element || '-'}</TableCell>
-                        <TableCell>{new Date(e.timestamp).toLocaleTimeString()}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            ) : (
-              <Typography variant="body2" color="text.secondary" textAlign="center" py={4}>
-                No events tracked yet. Activity will appear here as you use the app.
-              </Typography>
-            )}
-          </Box>
         </Box>
 
         <Box sx={{ 

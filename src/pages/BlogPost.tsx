@@ -105,7 +105,7 @@ export default function BlogPost() {
   };
 
   return (
-    <Container sx={{ py: 6, maxWidth: "md" }}>
+    <Container sx={{ py: 6, maxWidth: "md",     pt: { xs: 4, md: 14 }, }}>
       <Typography variant="h2" sx={{ fontWeight: 700, mb: 3 }}>{blog.title}</Typography>
 
       <Stack direction="row" spacing={4} alignItems="center" sx={{ mb: 6 }}>

@@ -122,22 +122,22 @@ export default function About() {
   const leads = TEAM_MEMBERS.filter((m) => m.role.toLowerCase().includes("lead") || m.role.toLowerCase().includes("cto"));
 
   return (
-    <Box sx={{ pt: { xs: 6, md: 10 }, pb: { xs: 6, md: 1 }, background: "#f9fafb51" }}>
+    <Box sx={{     pt: { xs: 4, md: 14 }, pb: { xs: 6, md: 1 }, background: "#f9fafb51" }}>
       <Container maxWidth="lg">
         {/* INTRO */}
         <Box sx={{ textAlign: "center", mb: 12 }}>
           <Typography variant="h2" sx={{ fontWeight: 700, mb: 3, color: "#0057FF" }}>
-            About Apprelab™
+            About Apprelab
           </Typography>
 
           <Typography variant="body1" sx={{ maxWidth: 850, mx: "auto", mb: 4, color: "#475569", fontSize: { xs: "1rem", md: "1.125rem" }, lineHeight: 1.9 }}>
-            Apprelab™ is a modern learning and work platform built to help people
+            Apprelab is a modern learning and work platform built to help people
             <strong> gain real skills, real experience, and real income</strong>.
             We go beyond theory by creating a space where learning meets practical execution.
           </Typography>
 
           <Typography variant="body1" sx={{ maxWidth: 850, mx: "auto", mb: 4, color: "#475569", fontSize: { xs: "1rem", md: "1.125rem" }, lineHeight: 1.9 }}>
-            Instead of stopping at courses, Apprelab™ allows learners to immediately
+            Instead of stopping at courses, Apprelab allows learners to immediately
             apply what they’ve learned on <strong>real-world projects</strong> —
             guided by mentors and built for professional growth.
           </Typography>
@@ -159,7 +159,7 @@ export default function About() {
           </Box>
 
           <Typography variant="body1" sx={{ maxWidth: 850, mx: "auto", color: "#475569", fontSize: { xs: "1rem", md: "1.125rem" }, lineHeight: 1.9 }}>
-            At Apprelab™, our goal is simple — to help individuals transition from
+            At Apprelab, our goal is simple — to help individuals transition from
             learning to earning with confidence, clarity, and real proof of skill.
             We’re building a community where talent is nurtured, experience is earned,
             and opportunities are created.

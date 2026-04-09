@@ -40,12 +40,12 @@ export default function Contact() {
   };
 
   return (
-    <Container sx={{ py: 7 }}>
-      <Typography variant="h3" sx={{ fontWeight: 700, mb: 3 }}>
+    <Container sx={{ py: 7 , pt: { xs: 4, md: 14 }}}>
+      <Typography variant="h3" sx={{ fontWeight: 700, mb: 3 , textAlign: "center"}}>
         Contact Us
       </Typography>
 
-      <Typography sx={{ mb: 4, color: "#475569" }}>
+      <Typography sx={{ mb: 4, color: "#475569" , textAlign: "center" }}>
         Have questions? Want to partner with us? Send a message below.
       </Typography>
 
@@ -56,6 +56,8 @@ export default function Contact() {
           background: "#ffffff",
           boxShadow: "0 8px 30px #0002",
           maxWidth: "600px",
+          alignItems: 'center',
+
         }}
       >
         {error && (
