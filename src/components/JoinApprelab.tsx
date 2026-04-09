@@ -46,7 +46,7 @@ export default function JoinApprelab() {
   const [index, setIndex] = useState(0);
 
   // --- AUTO ANIMATION LOGIC ---
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const userInteractedRef = useRef(false);
 
   const next = () => {

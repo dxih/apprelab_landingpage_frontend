@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { ThemeProvider, CssBaseline } from '@mui/material';
-import { theme } from './theme'; // Import your custom theme file
+import theme from './theme'; // Import your custom theme file
 // Admin Context
 import { AdminProvider } from './context/AdminContext';
 
