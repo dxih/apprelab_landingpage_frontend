@@ -1,5 +1,10 @@
 import { Box, Container, Typography } from "@mui/material";
 
+// Asset imports
+import LWE1 from "../assets/LWE1.png";
+import LWE2 from "../assets/LWE2.png";
+import LWE3 from "../assets/LWE3.png";
+
 const LearnWorkEarn = () => {
   return (
     <Box
@@ -89,7 +94,7 @@ const LearnWorkEarn = () => {
           <Box sx={{ textAlign: "center" }}>
             <Box
               component="img"
-              src="src/assets/LWE1.png"
+              src={LWE1}
               alt="Expert Mentor Guidance"
               sx={{
                 width: { xs: "70px", md: "90px" },
@@ -114,7 +119,7 @@ const LearnWorkEarn = () => {
           <Box sx={{ textAlign: "center" }}>
             <Box
               component="img"
-              src="src/assets/LWE2.png"
+              src={LWE2}
               alt="SMEs and Companies"
               sx={{
                 width: { xs: "65px", md: "75px" },
@@ -141,7 +146,7 @@ const LearnWorkEarn = () => {
           <Box sx={{ textAlign: "center" }}>
             <Box
               component="img"
-              src="src/assets/LWE3.png"
+              src={LWE3}
               alt="Verified Portfolio Builder"
               sx={{
                 width: { xs: "65px", md: "77px" },

@@ -1,6 +1,11 @@
 import { Box, Container, Typography, Button } from "@mui/material";
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 
+// Asset imports
+import IP1 from "../assets/IP1.png";
+import IP2 from "../assets/IP2.png";
+import IP3 from "../assets/IP3.png";
+
 const IntegratedPlatform = () => {
   return (
     <Box
@@ -112,7 +117,7 @@ const IntegratedPlatform = () => {
 
           <Box
             component="img"
-            src="src/assets/IP1.png"
+            src={IP1}
             alt="Learners UI"
             sx={{
               width: "100%",
@@ -138,7 +143,7 @@ const IntegratedPlatform = () => {
         >
           <Box
             component="img"
-            src="src/assets/IP2.png"
+            src={IP2}
             alt="Mentors UI"
             sx={{
               width: "100%",
@@ -244,7 +249,7 @@ const IntegratedPlatform = () => {
 
           <Box
             component="img"
-            src="src/assets/IP3.png"
+            src={IP3}
             alt="Business UI"
             sx={{
               width: "100%",

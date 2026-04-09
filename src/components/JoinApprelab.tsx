@@ -3,6 +3,13 @@ import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 
+// Asset imports
+import FounderOs from '../assets/FounderOS.png';
+import ResearchPedia from '../assets/ResearchPedia.png';
+import Alotech from '../assets/Alotech.png';
+import JAimg from '../assets/JAimg.png';
+import line from '../assets/line.png';
+
 interface Testimonial {
   name: string;
   role: string;
@@ -21,7 +28,7 @@ const testimonials: Testimonial[] = [
     role: 'Full-stack dev, Nigeria',
     text:
       "APPRELAB changed everything for me. I learned web development, completed 5 real client projects during the bootcamp, and got hired before I even finished. The mentor guidance made all the difference.",
-    avatar: 'src/assets/JAimg.png',
+    avatar: JAimg,
     colors: { primary: '#E5E7EB', secondary: '#FBCFE8', tertiary: '#FDE68A' },
   },
   {
@@ -29,7 +36,7 @@ const testimonials: Testimonial[] = [
     role: 'Senior UX Designer & Mentor, Kenya',
     text:
       "As a mentor, I've been able to impact hundreds of learners while building a sustainable income. I earn from my courses, supervise projects, and coach 1-on-1. It's the perfect platform for experts.",
-    avatar: 'src/assets/JAimg.png',
+    avatar: JAimg,
     colors: { primary: '#FBCFE8', secondary: '#FDE68A', tertiary: '#E5E7EB' },
   },
   {
@@ -37,7 +44,7 @@ const testimonials: Testimonial[] = [
     role: 'Founder, Tech Startup, Ghana',
     text:
       "We've hired twelve (12) people through APPRELAB in the past 6 months. The quality is amazing because of the mentor oversight, and the pricing is perfect for our startup budget.",
-    avatar: 'src/assets/JAimg.png',
+    avatar: JAimg,
     colors: { primary: '#FDE68A', secondary: '#E5E7EB', tertiary: '#FBCFE8' },
   },
 ];
@@ -125,11 +132,11 @@ export default function JoinApprelab() {
           mb={{ xs: 10, md: 20 }}
           flexWrap="wrap"
         >
-          <img src="src/assets/FounderOs.png" height={70} />
+          <img src={FounderOs} height={70} />
           <Box bgcolor="#fff" px={1.5} py={0.5} borderRadius={1}>
-            <img src="src/assets/ResearchPedia.png" height={70} />
+            <img src={ResearchPedia} height={70} />
           </Box>
-          <img src="src/assets/Alotech.png" height={70} />
+          <img src={Alotech} height={70} />
         </Stack>
 
         {/* ---------- BOTTOM SECTION ---------- */}
@@ -269,7 +276,7 @@ export default function JoinApprelab() {
             {/* ARROW (DESKTOP ONLY) */}
             <Box sx={{ display: { xs: 'none', md: 'block' } }}>
               <img
-                src="src/assets/line.png"
+                src={line}
                 style={{
                   position: 'absolute',
                   bottom: -185,

@@ -13,6 +13,11 @@ import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 import { useState } from 'react';
 import api from '../utils/api';
 
+// Asset imports
+import hero1 from '../assets/hero1.png';
+import hero2 from '../assets/hero2.png';
+import hero3 from '../assets/hero3.png';
+
 const Hero = () => {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -143,11 +148,7 @@ const Hero = () => {
               justifyContent: 'center',
             }}>
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                {[
-                  '/src/assets/hero1.png',
-                  '/src/assets/hero2.png',
-                  '/src/assets/hero3.png',
-                ].map((imagePath, i) => (
+                {[hero1, hero2, hero3].map((imagePath, i) => (
                   <Box
                     key={i}
                     component="img"
