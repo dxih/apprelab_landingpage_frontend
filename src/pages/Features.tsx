@@ -12,7 +12,6 @@ import SecurityRoundedIcon from "@mui/icons-material/SecurityRounded";
 
 // Images
 import LWE1 from "../assets/LWE1.png";
-import LWE2 from "../assets/LWE2.png";
 import IP1 from "../assets/IP1.png";
 
 const featuresData = [

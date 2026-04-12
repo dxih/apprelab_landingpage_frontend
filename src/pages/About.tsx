@@ -2,7 +2,6 @@ import { Box, Container, Typography, Avatar, Paper, IconButton, Chip } from "@mu
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import TwitterIcon from "@mui/icons-material/Twitter"; // X icon
-import PageHero from "../components/PageHero";
 
 // IMPORT IMAGES (adjust paths if needed)
 import ceoImg from "../assets/members/CEO.jpg";
