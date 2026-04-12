@@ -1,5 +1,6 @@
 import { Container, Typography, Box, TextField, Button } from "@mui/material";
 import { useState } from "react";
+import PageHero from "../components/PageHero";
 
 export default function Contact() {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
@@ -40,67 +41,84 @@ export default function Contact() {
   };
 
   return (
-    <Container sx={{ py: 7 , pt: { xs: 4, md: 14 }}}>
-      <Typography variant="h3" sx={{ fontWeight: 700, mb: 3 , textAlign: "center"}}>
-        Contact Us
-      </Typography>
+    <Box sx={{ backgroundColor: "#F6F7FF", minHeight: "100vh" }}>
+      <PageHero
+        title={
+          <>
+            Contact <Box component="span" sx={{ color: "#FFD93D" }}>Us</Box>
+          </>
+        }
+        subtitle="Have questions? Want to partner with us? Send a message below."
+        minHeight={{ xs: "40vh", md: "45vh" }}
+      />
 
-      <Typography sx={{ mb: 4, color: "#475569" , textAlign: "center" }}>
-        Have questions? Want to partner with us? Send a message below.
-      </Typography>
+      <Container maxWidth="md" sx={{ mt: { xs: -4, md: -10 }, position: 'relative', zIndex: 10, pb: 12 }}>
+        <Box
+          sx={{
+            p: { xs: 4, md: 6 },
+            borderRadius: "40px",
+            background: "#FFFFFF",
+            border: "1px solid rgba(203, 213, 225, 0.5)",
+            boxShadow: "0 20px 60px rgba(1, 10, 69, 0.08)",
+            mx: "auto",
+            maxWidth: "600px",
+          }}
+        >
+          {error && (
+            <Typography color="error" sx={{ mb: 3, fontWeight: 500, fontFamily: "Poppins, sans-serif" }}>
+              {error}
+            </Typography>
+          )}
 
-      <Box
-        sx={{
-          p: 5,
-          borderRadius: 3,
-          background: "#ffffff",
-          boxShadow: "0 8px 30px #0002",
-          maxWidth: "600px",
-          alignItems: 'center',
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+            <TextField
+              label="Full Name"
+              value={form.name}
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
+              required
+              sx={{ "& .MuiOutlinedInput-root": { borderRadius: "12px", fontFamily: "Poppins, sans-serif" } }}
+            />
 
-        }}
-      >
-        {error && (
-          <Typography color="error" sx={{ mb: 2 }}>
-            {error}
-          </Typography>
-        )}
+            <TextField
+              label="Email"
+              type="email"
+              value={form.email}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
+              required
+              sx={{ "& .MuiOutlinedInput-root": { borderRadius: "12px", fontFamily: "Poppins, sans-serif" } }}
+            />
 
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-          <TextField
-            label="Full Name"
-            value={form.name}
-            onChange={(e) => setForm({ ...form, name: e.target.value })}
-            required
-          />
+            <TextField
+              label="Message"
+              multiline
+              minRows={4}
+              value={form.message}
+              onChange={(e) => setForm({ ...form, message: e.target.value })}
+              required
+              sx={{ "& .MuiOutlinedInput-root": { borderRadius: "12px", fontFamily: "Poppins, sans-serif" } }}
+            />
 
-          <TextField
-            label="Email"
-            type="email"
-            value={form.email}
-            onChange={(e) => setForm({ ...form, email: e.target.value })}
-            required
-          />
-
-          <TextField
-            label="Message"
-            multiline
-            minRows={4}
-            value={form.message}
-            onChange={(e) => setForm({ ...form, message: e.target.value })}
-            required
-          />
-
-          <Button
-            variant="contained"
-            sx={{ background: "#0057FF" }}
-            onClick={submit}
-            disabled={loading || !form.name || !form.email || !form.message}
-          >
-            {loading ? "Sending..." : "Send Message"}
-          </Button>
+            <Button
+              variant="contained"
+              sx={{ 
+                background: "#0B1C5D", 
+                borderRadius: "14px", 
+                py: 1.8, 
+                textTransform: "none", 
+                fontWeight: 700, 
+                fontSize: "1.05rem", 
+                fontFamily: "Poppins, sans-serif",
+                mt: 1,
+                "&:hover": { background: "#09184A" }
+              }}
+              onClick={submit}
+              disabled={loading || !form.name || !form.email || !form.message}
+            >
+              {loading ? "Sending..." : "Send Message"}
+            </Button>
+          </Box>
         </Box>
-      </Box>
-    </Container>
+      </Container>
+    </Box>
   );
 }

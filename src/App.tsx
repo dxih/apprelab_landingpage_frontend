@@ -22,6 +22,14 @@ import Terms from "./pages/Terms";
 import About from "./pages/About";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import CookiePolicy from "./pages/CookiePolicy";
+import Features from "./pages/Features";
+import HowItWorks from "./pages/HowItWorks";
+import Learners from "./pages/Learners";
+import Mentors from "./pages/Mentors";
+import Businesses from "./pages/Businesses";
+import HelpCenter from "./pages/HelpCenter";
+import Community from "./pages/Community";
+import Partners from "./pages/Partners";
 import DiagnosticTest from './pages/admin/DiagnosticTest';
 
 // Admin Pages
@@ -51,6 +59,14 @@ function AppContent() {
         <Route path="/about" element={<About />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/cookie-policy" element={<CookiePolicy />} />
+        <Route path="/features" element={<Features />} />
+        <Route path="/how-it-works" element={<HowItWorks />} />
+        <Route path="/learners" element={<Learners />} />
+        <Route path="/mentors" element={<Mentors />} />
+        <Route path="/businesses" element={<Businesses />} />
+        <Route path="/help" element={<HelpCenter />} />
+        <Route path="/community" element={<Community />} />
+        <Route path="/partners" element={<Partners />} />
         <Route path="/admin/diagnostic" element={<DiagnosticTest />} />
 
         {/* Admin Routes */}

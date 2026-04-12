@@ -9,34 +9,36 @@ interface CareerJobsProps {
 export default function CareerJobs({ job }: CareerJobsProps) {
   return (
     <Card
+      elevation={0}
       sx={{
-        flex: "1 1 calc(50% - 16px)",
+        flex: "1 1 calc(50% - 32px)",
         minWidth: "300px",
-        p: 3,
-        borderRadius: 3,
-        background: "#F9FAFB",
+        borderRadius: "24px",
+        background: "#F8FAFC",
+        border: "1px solid rgba(203, 213, 225, 0.4)",
+        p: { xs: 3, md: 4 },
         "&:hover": {
-          transform: "translateY(-4px)",
-          boxShadow: "0 12px 24px rgba(0,0,0,0.08)",
+          transform: "translateY(-6px)",
+          boxShadow: "0 16px 32px rgba(1, 10, 69, 0.06)",
         },
-        transition: "0.3s",
+        transition: "all 0.3s ease",
       }}
     >
-      <CardContent>
-        <Typography variant="h5" sx={{ fontWeight: 600, mb: 1 }}>
+      <CardContent sx={{ p: 0, "&:last-child": { pb: 0 } }}>
+        <Typography variant="h5" sx={{ fontWeight: 700, mb: 1.5, fontFamily: "Poppins, sans-serif" }}>
           {job.title}
         </Typography>
 
-        <Typography sx={{ mb: 2, color: "#475569", fontWeight: 500 }}>
+        <Typography sx={{ mb: 2, color: "#64748B", fontWeight: 600, fontFamily: "Poppins, sans-serif", fontSize: "14px" }}>
           {job.type} · {job.location}
         </Typography>
 
-        <Typography sx={{ mb: 2 }}>
+        <Typography sx={{ mb: 4, color: "#475569", fontFamily: "Poppins, sans-serif", lineHeight: 1.7 }}>
           {job.shortDescription}
         </Typography>
 
-        <Link to={`/careers/${job._id}`}>
-          <Button variant="contained" sx={{ background: "#0057FF" }}>
+        <Link to={`/careers/${job._id}`} style={{ textDecoration: 'none' }}>
+          <Button variant="contained" sx={{ background: "#0B1C5D", borderRadius: "12px", textTransform: 'none', fontWeight: 600, fontFamily: "Poppins, sans-serif", px: 3, py: 1.2, "&:hover": { background: "#09184A" } }}>
             Read More
           </Button>
         </Link>

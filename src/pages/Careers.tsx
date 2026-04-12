@@ -1,7 +1,8 @@
-import { Container, Typography, Box, CircularProgress } from "@mui/material";
+import { Container, Box, CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
 import CareerJobs from "../components/CareerJobs";
 import { Job } from "../types/job";
+import PageHero from "../components/PageHero";
 
 export default function Careers() {
   const [jobs, setJobs] = useState<Job[]>([]);
@@ -24,34 +25,40 @@ export default function Careers() {
   }, []);
 
   return (
-    <Container sx={{ py: 15 }}>
-      <Typography variant="h3" sx={{ mb: 2, fontWeight: 700 }}>
-        Careers at <span style={{ color: "#0057FF" }}>apprelab</span>
-      </Typography>
+    <Box sx={{ backgroundColor: "#F6F7FF", minHeight: "100vh" }}>
+      <PageHero
+        title={
+          <>
+            Careers at <Box component="span" sx={{ color: "#FFD93D" }}>Apprelab</Box>
+          </>
+        }
+        subtitle="Apply for available roles before our official launch. Join the early team and help shape the future of practical tech education!"
+      />
 
-      <Typography sx={{ color: "#475569", mb: 6, fontSize: "1.1rem",fontFamily: "Poppins, sans-serif" }}>
-        Apply for available roles before our official launch. Join the early team
-        and help shape the future of practical tech education!
-      </Typography>
-
-      {loading ? (
-        <CircularProgress />
-      ) : (
-        <Box
-          sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 4,
-            justifyContent: "space-between",
-                pt: { xs: 4, md: 14 },
-
-          }}
-        >
-          {jobs.map((job) => (
-            <CareerJobs key={job._id} job={job} />
-          ))}
-        </Box>
-      )}
-    </Container>
+      <Container maxWidth="lg" sx={{ py: { xs: 8, md: 12 } }}>
+        {loading ? (
+          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <CircularProgress />
+          </Box>
+        ) : (
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 4,
+              backgroundColor: "#FFFFFF",
+              borderRadius: "40px",
+              p: { xs: 4, md: 8 },
+              boxShadow: "0 20px 60px rgba(1, 10, 69, 0.05)",
+              border: "1px solid rgba(203, 213, 225, 0.3)"
+            }}
+          >
+            {jobs.map((job) => (
+              <CareerJobs key={job._id} job={job} />
+            ))}
+          </Box>
+        )}
+      </Container>
+    </Box>
   );
 }
