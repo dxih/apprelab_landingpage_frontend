@@ -6,6 +6,7 @@ import {
   IconButton,
   Drawer,
   Stack,
+  Button
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link } from "react-router-dom";
@@ -14,10 +15,9 @@ import AppRelabLogo from "../assets/apprelab_logo.png";
 
 const NAV_LINKS = [
   { label: "Features", to: "/features" },
-  { label: "How it Works?", to: "/how-it-works" },
-  { label: "For Learners", to: "/learners" },
-  { label: "For Mentors", to: "/mentors" },
-  { label: "For Businesses", to: "/businesses" },
+  { label: "How It Works", to: "/how-it-works" },
+  { label: "About", to: "/about" },
+  { label: "Blog", to: "/blog" },
 ];
 
 export default function Navbar() {
@@ -57,10 +57,10 @@ export default function Navbar() {
             sx={{
               minHeight: "56px !important",
               height: 56,
-              px: 2.5,
+              px: { xs: 2.5, md: 2.5 },
               display: "flex",
               alignItems: "center",
-              gap: 4,
+              gap: { xs: 2, md: 4 },
             }}
           >
             {/* LOGO */}
@@ -97,7 +97,7 @@ export default function Navbar() {
                   to={link.to}
                   sx={{
                     textDecoration: "none",
-                    fontSize: {sm: "13px", md: "15px"},
+                    fontSize: { sm: "13px", md: "15px" },
                     fontWeight: 500,
                     color: "#000",
                     transition: "color 0.2s ease",
@@ -109,6 +109,29 @@ export default function Navbar() {
                   {link.label}
                 </Typography>
               ))}
+
+              {/* PRIMARY CTA FOR WAITLIST */}
+              <Button
+                component={Link}
+                to="/"
+                variant="contained"
+                sx={{
+                  background: "#010A45",
+                  color: "#FFFFFF",
+                  fontWeight: 600,
+                  fontSize: "14px",
+                  borderRadius: "20px",
+                  textTransform: "none",
+                  px: 3,
+                  py: 0.8,
+                  ml: 1,
+                  fontFamily: "'Poppins', sans-serif",
+                  boxShadow: "0 4px 14px rgba(1, 10, 69, 0.2)",
+                  "&:hover": { background: "#0B1C5D", boxShadow: "0 6px 20px rgba(1, 10, 69, 0.3)" }
+                }}
+              >
+                Join Waitlist
+              </Button>
             </Box>
 
             {/* MOBILE MENU BUTTON */}
@@ -157,6 +180,30 @@ export default function Navbar() {
               {link.label}
             </Typography>
           ))}
+
+          <Box sx={{ mt: 2 }}>
+            <Button
+              component={Link}
+              to="/"
+              onClick={toggleDrawer}
+              fullWidth
+              variant="contained"
+              sx={{
+                background: "#010A45",
+                color: "#FFFFFF",
+                fontWeight: 600,
+                fontSize: "16px",
+                borderRadius: "12px",
+                textTransform: "none",
+                py: 1.5,
+                fontFamily: "'Poppins', sans-serif",
+                boxShadow: "0 8px 24px rgba(1, 10, 69, 0.2)",
+                "&:hover": { background: "#0B1C5D" }
+              }}
+            >
+              Join Waitlist
+            </Button>
+          </Box>
         </Stack>
       </Drawer>
     </>
