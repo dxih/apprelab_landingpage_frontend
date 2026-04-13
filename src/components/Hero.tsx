@@ -58,10 +58,11 @@ const Hero = () => {
     setLoading(true);
 
     try {
+      const finalRole = role === "Business/SME" ? "sme" : role.toLowerCase();
       await api.post('/api/waitlist/join', {
         name,
         email,
-        role: role.toLowerCase(),
+        role: finalRole,
       });
 
       setSnackbarMessage(`🎉 Successfully joined the waitlist!`);
@@ -365,7 +366,7 @@ const Hero = () => {
             >
               <MenuItem value="Learner">Learner</MenuItem>
               <MenuItem value="Mentor">Mentor</MenuItem>
-              <MenuItem value="Business">Business</MenuItem>
+              <MenuItem value="Business/SME">Business/SME</MenuItem>
             </TextField>
 
             {/* Buttons */}

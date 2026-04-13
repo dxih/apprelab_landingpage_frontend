@@ -85,7 +85,7 @@ export default function Businesses() {
                   "&:hover": { background: "#0B1C5D" }
                 }}
             >
-                Partner as a Business
+                Partner as a Business/SME
             </Button>
           </Box>
         </Box>

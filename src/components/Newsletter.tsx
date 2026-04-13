@@ -7,14 +7,66 @@ import {
   MenuItem,
   Select,
   FormControl,
+  Snackbar,
+  Alert,
+  CircularProgress
 } from "@mui/material";
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
+import api from "../utils/api";
 
 import EmailIcon from "../assets/emailicon.png";
 import YellowShape from "../assets/yellowvector.png";
 
 const Newsletter = () => {
   const [interest, setInterest] = useState("");
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">("success");
+
+  const validateEmail = (email: string) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const handleSubmit = async () => {
+    if (!email.trim()) {
+      setSnackbarMessage("Please enter your email address");
+      setSnackbarSeverity("error");
+      setOpenSnackbar(true);
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setSnackbarMessage("Please enter a valid email address");
+      setSnackbarSeverity("error");
+      setOpenSnackbar(true);
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await api.post("/api/newsletter", {
+        email: email.trim(),
+        interest
+      });
+
+      setSnackbarMessage(response.data.message || "Successfully subscribed!");
+      setSnackbarSeverity("success");
+      setOpenSnackbar(true);
+      setEmail("");
+      setInterest("");
+    } catch (error: any) {
+      setSnackbarMessage(
+        error?.response?.data?.message || "Something went wrong. Please try again."
+      );
+      setSnackbarSeverity("error");
+      setOpenSnackbar(true);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Box
@@ -25,7 +77,7 @@ const Newsletter = () => {
         px: { xs: 4, sm: 5, md: 15 },
         py: { xs: 10, md: 10 },
         display: "flex",
-        flexDirection: { xs: "column", md: "row" }, // 🔥 stack on mobile
+        flexDirection: { xs: "column", md: "row" },
         justifyContent: "space-between",
         gap: { xs: 6, md: 0 },
         alignItems: "center",
@@ -33,7 +85,6 @@ const Newsletter = () => {
         overflow: "hidden",
       }}
     >
-      {/* Bottom-left yellow shape */}
       <Box
         component="img"
         src={YellowShape}
@@ -47,9 +98,7 @@ const Newsletter = () => {
         }}
       />
 
-      {/* LEFT CONTENT */}
       <Box sx={{ maxWidth: 520, zIndex: 1 }}>
-        {/* Badge */}
         <Box
           sx={{
             display: "inline-flex",
@@ -67,7 +116,6 @@ const Newsletter = () => {
           </Typography>
         </Box>
 
-        {/* Heading */}
         <Typography
           sx={{
             fontSize: { xs: 26, md: 36 },
@@ -103,7 +151,6 @@ const Newsletter = () => {
           to Know
         </Typography>
 
-        {/* Description */}
         <Typography
           sx={{
             fontSize: 14,
@@ -119,7 +166,6 @@ const Newsletter = () => {
         </Typography>
       </Box>
 
-      {/* RIGHT FORM */}
       <Box sx={{ width: "100%", maxWidth: 420, zIndex: 1 }}>
         <Typography fontSize={14} fontWeight={600} mb={1}>
           I am Interested in
@@ -130,6 +176,7 @@ const Newsletter = () => {
             value={interest}
             displayEmpty
             onChange={(e) => setInterest(e.target.value)}
+            disabled={loading}
             sx={{
               borderRadius: 2,
               height: 52,
@@ -137,7 +184,7 @@ const Newsletter = () => {
             }}
           >
             <MenuItem value="" disabled>
-              Select an option
+              Select an option (Optional)
             </MenuItem>
             <MenuItem value="Courses">Courses</MenuItem>
             <MenuItem value="Projects">Projects</MenuItem>
@@ -153,6 +200,9 @@ const Newsletter = () => {
           fullWidth
           placeholder="abcdef@gmail.com"
           type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          disabled={loading}
           sx={{
             mb: 2,
             "& .MuiOutlinedInput-root": {
@@ -165,6 +215,8 @@ const Newsletter = () => {
         <Button
           fullWidth
           variant="contained"
+          onClick={handleSubmit}
+          disabled={loading}
           sx={{
             height: 56,
             borderRadius: 2,
@@ -179,9 +231,30 @@ const Newsletter = () => {
             },
           }}
         >
-          Subscribe <ArrowOutwardIcon sx={{ fontSize: 18 }} />
+          {loading ? (
+            <CircularProgress size={24} color="inherit" />
+          ) : (
+            <>
+              Subscribe <ArrowOutwardIcon sx={{ fontSize: 18 }} />
+            </>
+          )}
         </Button>
       </Box>
+
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={() => setOpenSnackbar(false)}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={() => setOpenSnackbar(false)}
+          severity={snackbarSeverity}
+          sx={{ width: "100%", fontWeight: 500 }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };
