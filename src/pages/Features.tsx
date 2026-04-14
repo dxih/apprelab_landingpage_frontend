@@ -14,7 +14,6 @@ import HubRoundedIcon from "@mui/icons-material/HubRounded";
 
 // Images
 import LWE1 from "../assets/LWE1.png";
-import IP1 from "../assets/IP1.png";
 
 const featuresData = [
   {

@@ -153,7 +153,7 @@ const JoinedUsers = () => {
                   {tab === 0 ? (
                     waitlist.map((entry: any) => (
                       <TableRow key={entry._id} hover>
-                        <TableCell fontWeight="600">{entry.name}</TableCell>
+                        <TableCell sx={{ fontWeight: "600" }}>{entry.name}</TableCell>
                         <TableCell>{entry.email}</TableCell>
                         <TableCell>
                           <Chip 
@@ -174,7 +174,7 @@ const JoinedUsers = () => {
                   ) : (
                     newsletter.map((sub: any) => (
                       <TableRow key={sub._id} hover>
-                        <TableCell fontWeight="600">{sub.email}</TableCell>
+                        <TableCell sx={{ fontWeight: "600" }}>{sub.email}</TableCell>
                         <TableCell>{sub.interest || 'N/A'}</TableCell>
                         <TableCell color="text.secondary">
                           {new Date(sub.subscribedAt || sub.createdAt).toLocaleDateString()}
