@@ -4,13 +4,14 @@ import ArticleIcon from '@mui/icons-material/Article';
 import WorkIcon from '@mui/icons-material/Work';
 import LogoutIcon from '@mui/icons-material/Logout';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import PeopleIcon from '@mui/icons-material/People';
 import { useState, useEffect } from 'react';
 import { useAdmin } from '../../context/AdminContext';
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { logout } = useAdmin();
-  const [stats, setStats] = useState({ blogs: 0, jobs: 0 });
+  const { logout, token } = useAdmin();
+  const [stats, setStats] = useState({ blogs: 0, jobs: 0, joined: 0 });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -20,14 +21,19 @@ const Dashboard = () => {
 
         const blogsRes = await fetch(`${import.meta.env.VITE_API_URL || 'https://apprelab-landingpage-backend.onrender.com/api'}/blogs`);
         const jobsRes = await fetch(`${import.meta.env.VITE_API_URL || 'https://apprelab-landingpage-backend.onrender.com/api'}/jobs`);
-
-        if (!blogsRes.ok || !jobsRes.ok) {
-          console.error('API Error - Blogs:', blogsRes.status, 'Jobs:', jobsRes.status);
-          return;
-        }
+        
+        // Fetch waitlist and newsletter stats (protected)
+        const waitlistRes = await fetch(`${import.meta.env.VITE_API_URL || 'https://apprelab-landingpage-backend.onrender.com/api'}/admin/waitlist`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const newsletterRes = await fetch(`${import.meta.env.VITE_API_URL || 'https://apprelab-landingpage-backend.onrender.com/api'}/admin/newsletter`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
 
         const blogsData = await blogsRes.json();
         const jobsData = await jobsRes.json();
+        const waitlistData = waitlistRes.ok ? await waitlistRes.json() : { count: 0 };
+        const newsletterData = newsletterRes.ok ? await newsletterRes.json() : { count: 0 };
 
         setStats({
           blogs: Array.isArray(blogsData) 
@@ -35,18 +41,21 @@ const Dashboard = () => {
             : blogsData?.data?.length || blogsData?.blogs?.length || 0,
           jobs: Array.isArray(jobsData) 
             ? jobsData.length 
-            : jobsData?.data?.length || jobsData?.jobs?.length || 0
+            : jobsData?.data?.length || jobsData?.jobs?.length || 0,
+          joined: (waitlistData.count || 0) + (newsletterData.count || 0)
         });
       } catch (error) {
         console.error('Error fetching stats:', error);
-        setStats({ blogs: 0, jobs: 0 });
+        setStats({ blogs: 0, jobs: 0, joined: 0 });
       } finally {
         setLoading(false);
       }
     };
 
-    fetchStats();
-  }, []);
+    if (token) {
+      fetchStats();
+    }
+  }, [token]);
 
   const handleLogout = () => {
     if (window.confirm('Are you sure you want to logout?')) {
@@ -73,6 +82,15 @@ const Dashboard = () => {
       bgColor: '#f5f3ff',
       route: '/admin/jobs',
       description: 'Manage job postings'
+    },
+    {
+      title: 'Joined Users',
+      count: stats.joined,
+      icon: <PeopleIcon sx={{ fontSize: 40 }} />,
+      color: '#10B981',
+      bgColor: '#ecfdf5',
+      route: '/admin/joined',
+      description: 'View waitlist & newsletter'
     }
   ];
 

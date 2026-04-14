@@ -39,6 +39,7 @@ import BlogList from './pages/admin/blogs/BlogList';
 import BlogForm from './pages/admin/blogs/BlogForm';
 import JobList from './pages/admin/jobs/JobList';
 import JobForm from './pages/admin/jobs/JobForm';
+import JoinedUsers from './pages/admin/JoinedUsers';
 
 function AppContent() {
   return (
@@ -78,6 +79,7 @@ function AppContent() {
         <Route path="/admin/jobs" element={<JobList />} />
         <Route path="/admin/jobs/create" element={<JobForm />} />
         <Route path="/admin/jobs/edit/:id" element={<JobForm />} />
+        <Route path="/admin/joined" element={<JoinedUsers />} />
 
         {/* Catch-all */}
         <Route path="*" element={<Navigate to="/" replace />} />
