@@ -59,7 +59,7 @@ const Hero = () => {
 
     try {
       const finalRole = role === "Business/SME" ? "sme" : role.toLowerCase();
-      await api.post('/api/waitlist/join', {
+      await api.post('/waitlist/join', {
         name,
         email,
         role: finalRole,

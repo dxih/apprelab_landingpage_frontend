@@ -47,7 +47,7 @@ const Newsletter = () => {
     setLoading(true);
 
     try {
-      const response = await api.post("/api/newsletter", {
+      const response = await api.post("/newsletter", {
         email: email.trim(),
         interest
       });

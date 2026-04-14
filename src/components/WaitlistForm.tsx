@@ -50,7 +50,7 @@ const WaitlistForm = ({ selectedRole }: WaitlistFormProps) => {
 
     try {
       // 🚀 REAL API CALL
-      await api.post('/api/waitlist/join', {
+      await api.post('/waitlist/join', {
         name,
         email,
         role: selectedRole,
