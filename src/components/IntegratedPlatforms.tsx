@@ -1,5 +1,5 @@
-import { Box, Container, Typography, Button } from "@mui/material";
-import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
+import { ArrowOutward as ArrowOutwardIcon } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 
 // Asset imports
 import IP1 from "../assets/IP1.png";
@@ -99,6 +99,8 @@ const IntegratedPlatform = () => {
             ))}
 
             <Button
+              component={Link}
+              to="/learners"
               variant="contained"
               sx={{
                 mt: "28px",
