@@ -1,3 +1,8 @@
+import { Box, Container, Typography, Button } from "@mui/material";
+import { Link } from "react-router-dom";
+import PageHero from "../components/PageHero";
+import mentorImg from "../assets/mentor.png";
+
 // Icons
 import SchoolRoundedIcon from "@mui/icons-material/SchoolRounded";
 import GroupRoundedIcon from "@mui/icons-material/GroupRounded";
